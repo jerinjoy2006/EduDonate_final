@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Donations - EduDonate</title>
+    <meta charset="UTF-8"/>
+</head>
+<body>
+<h1>Donations Page 🎁</h1>
+
+<!-- Donation Form -->
+<h2>Make a Donation</h2>
+<form th:action="@{/donations/add}" method="post" th:object="${donation}">
+    <p>
+        <label>Donor Name:</label>
+        <input type="text" th:field="*{donorName}" required />
+    </p>
+    <p>
+        <label>Item Type:</label>
+        <input type="text" th:field="*{itemType}" required />
+    </p>
+    <p>
+        <label>Description:</label>
+        <input type="text" th:field="*{description}" />
+    </p>
+    <p>
+        <button type="submit">Donate</button>
+    </p>
+</form>
+
+<!-- Donations List -->
+<h2>All Donations</h2>
+<ul>
+    <li th:each="don : ${donations}">
+        <b th:text="${don.donorName}"></b> donated
+        <span th:text="${don.itemType}"></span> —
+        <i th:text="${don.description}"></i>
+    </li>
+</ul>
+</body>
+</html>

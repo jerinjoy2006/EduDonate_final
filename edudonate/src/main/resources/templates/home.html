@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home - EduDonate</title>
+    <meta charset="UTF-8"/>
+</head>
+<body>
+<h1>Welcome to EduDonate 🎉</h1>
+
+<nav>
+    <ul>
+        <li><a th:href="@{/donations}">Make a Donation</a></li>
+        <li><a th:href="@{/exchange}">Request an Exchange</a></li>
+        <li><a th:href="@{/rental}">Rent Items</a></li>
+        <li><a th:href="@{/profile}">My Profile</a></li>
+        <li>
+            <form th:action="@{/logout}" method="post" style="display:inline;">
+                <button type="submit">Logout</button>
+            </form>
+        </li>
+    </ul>
+</nav>
+
+<p>Choose an option from above to start using EduDonate 🚀</p>
+</body>
+</html>

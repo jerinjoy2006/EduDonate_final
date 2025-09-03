@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login - EduDonate</title>
+</head>
+<body>
+<h1>Login to EduDonate</h1>
+
+<!-- Spring Security will handle POST to /login -->
+<form th:action="@{/login}" method="post">
+    <label>Username:
+        <input type="text" name="username" required/>
+    </label><br><br>
+
+    <label>Password:
+        <input type="password" name="password" required/>
+    </label><br><br>
+
+    <button type="submit">Login</button>
+</form>
+
+<p>Don’t have an account? <a th:href="@{/register}">Register here</a></p>
+
+<!-- Show error if login fails -->
+<div th:if="${param.error}">
+    <p style="color:red;">Invalid username or password.</p>
+</div>
+
+<!-- Show logout message -->
+<div th:if="${param.logout}">
+    <p style="color:green;">You have been logged out.</p>
+</div>
+</body>
+</html>
