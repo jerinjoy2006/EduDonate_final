@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>EduDonate - Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f6f9; margin: 0; }
+        header {
+            background: #3498db; padding: 15px; color: white; text-align: center;
+        }
+        .container { padding: 20px; }
+        .donation-card {
+            background: white; padding: 15px; margin: 10px 0;
+            border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        a.button {
+            display: inline-block; padding: 10px 15px; background: #2ecc71; color: white;
+            text-decoration: none; border-radius: 6px;
+        }
+        a.button:hover { background: #27ae60; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Welcome to EduDonate Dashboard</h1>
+</header>
+<div class="container">
+    <h2>Latest Donations</h2>
+    <div th:each="donation : ${latestDonations}" class="donation-card">
+        <h3 th:text="${donation.itemType}">Item</h3>
+        <p><strong>Donor:</strong> <span th:text="${donation.donorName}"></span></p>
+        <p><strong>Description:</strong> <span th:text="${donation.description}"></span></p>
+    </div>
+
+    <br/>
+    <a href="/donations" class="button">View All Donations</a>
+</div>
+</body>
+</html>

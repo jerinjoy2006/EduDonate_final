@@ -7,6 +7,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 @Controller
 public class DonationController {
@@ -17,15 +20,25 @@ public class DonationController {
         this.donationService = donationService;
     }
 
-    // Show all donations + form
+    // Show all donations + filter
     @GetMapping("/donations")
-    public String showDonations(Model model) {
-        model.addAttribute("donations", donationService.getAllDonations());
+    public String showDonations(@RequestParam(required = false) String keyword,
+                                @RequestParam(required = false) String type,
+                                Model model) {
+        List<Donation> donations;
+
+        if ((keyword != null && !keyword.isEmpty()) || (type != null && !type.isEmpty())) {
+            donations = donationService.searchDonations(keyword, type);
+        } else {
+            donations = donationService.getAllDonations();
+        }
+
+        model.addAttribute("donations", donations);
         model.addAttribute("donation", new Donation()); // empty form object
         return "donations";  // must match donations.html
     }
 
-    // Handle form submission
+    // Handle new donation form submission
     @PostMapping("/donations/add")
     public String addDonation(@ModelAttribute Donation donation) {
         donationService.saveDonation(donation);

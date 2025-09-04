@@ -1,34 +1,62 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Login - EduDonate</title>
+    <meta charset="UTF-8">
+    <title>EduDonate - Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .login-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 15px rgba(0,0,0,0.2);
+            width: 350px;
+        }
+        .login-card h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+    </style>
 </head>
 <body>
-<h1>Login to EduDonate</h1>
+<div class="login-card">
+    <h2>EduDonate Login</h2>
 
-<!-- Spring Security will handle POST to /login -->
-<form th:action="@{/login}" method="post">
-    <label>Username:
-        <input type="text" name="username" required/>
-    </label><br><br>
+    <!-- Error if login fails -->
+    <div th:if="${param.error}" class="alert alert-danger">
+        Invalid username or password
+    </div>
 
-    <label>Password:
-        <input type="password" name="password" required/>
-    </label><br><br>
+    <!-- Message after logout -->
+    <div th:if="${param.logout}" class="alert alert-success">
+        You have been logged out successfully.
+    </div>
 
-    <button type="submit">Login</button>
-</form>
+    <form th:action="@{/login}" method="post">
+        <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" id="username" name="username" class="form-control" required autofocus>
+        </div>
 
-<p>Don’t have an account? <a th:href="@{/register}">Register here</a></p>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" id="password" name="password" class="form-control" required>
+        </div>
 
-<!-- Show error if login fails -->
-<div th:if="${param.error}">
-    <p style="color:red;">Invalid username or password.</p>
-</div>
+        <button type="submit" class="btn btn-primary w-100">Login</button>
+    </form>
 
-<!-- Show logout message -->
-<div th:if="${param.logout}">
-    <p style="color:green;">You have been logged out.</p>
+    <p class="text-center mt-3">
+        Don’t have an account? <a th:href="@{/register}">Register</a>
+    </p>
 </div>
 </body>
 </html>

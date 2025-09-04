@@ -1,40 +1,69 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Donations - EduDonate</title>
-    <meta charset="UTF-8"/>
+    <title>EduDonate - Donations</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .donation-card {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            background: #f9f9f9;
+        }
+        .form-container {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #aaa;
+            border-radius: 8px;
+        }
+    </style>
 </head>
 <body>
-<h1>Donations Page 🎁</h1>
+<h1>EduDonate - Donations</h1>
 
-<!-- Donation Form -->
-<h2>Make a Donation</h2>
-<form th:action="@{/donations/add}" method="post" th:object="${donation}">
-    <p>
-        <label>Donor Name:</label>
-        <input type="text" th:field="*{donorName}" required />
-    </p>
-    <p>
-        <label>Item Type:</label>
-        <input type="text" th:field="*{itemType}" required />
-    </p>
-    <p>
-        <label>Description:</label>
-        <input type="text" th:field="*{description}" />
-    </p>
-    <p>
-        <button type="submit">Donate</button>
-    </p>
+<!-- Search + Filter -->
+<form th:action="@{/donations}" method="get" style="margin-bottom: 20px; display:flex; gap:10px;">
+    <input type="text" name="keyword" placeholder="Search by donor or description..." style="flex:2; padding:10px; border-radius:6px; border:1px solid #ccc;">
+
+    <select name="type" style="flex:1; padding:10px; border-radius:6px; border:1px solid #ccc;">
+        <option value="">All Types</option>
+        <option value="Book">Book</option>
+        <option value="Clothes">Clothes</option>
+        <option value="Stationery">Stationery</option>
+        <option value="Electronics">Electronics</option>
+        <option value="Other">Other</option>
+    </select>
+
+    <button type="submit" style="padding:10px 20px; background:#2980b9; color:white; border:none; border-radius:6px;">Search</button>
 </form>
 
-<!-- Donations List -->
-<h2>All Donations</h2>
-<ul>
-    <li th:each="don : ${donations}">
-        <b th:text="${don.donorName}"></b> donated
-        <span th:text="${don.itemType}"></span> —
-        <i th:text="${don.description}"></i>
-    </li>
-</ul>
+<!-- Show donations -->
+<div th:if="${donations.size() > 0}">
+    <div th:each="donation : ${donations}" class="donation-card">
+        <h3 th:text="${donation.itemType}">Item</h3>
+        <p><strong>Donor:</strong> <span th:text="${donation.donorName}">Name</span></p>
+        <p><strong>Description:</strong> <span th:text="${donation.description}">Details</span></p>
+    </div>
+</div>
+<p th:if="${donations.size() == 0}">No donations found.</p>
+
+<!-- Add donation form -->
+<div class="form-container">
+    <h2>Add a Donation</h2>
+    <form th:action="@{/donations/add}" th:object="${donation}" method="post">
+        <label>Donor Name:</label>
+        <input type="text" th:field="*{donorName}" required/><br/><br/>
+
+        <label>Item Type:</label>
+        <input type="text" th:field="*{itemType}" required/><br/><br/>
+
+        <label>Description:</label>
+        <textarea th:field="*{description}" required></textarea><br/><br/>
+
+        <button type="submit">Donate</button>
+    </form>
+</div>
+
 </body>
 </html>

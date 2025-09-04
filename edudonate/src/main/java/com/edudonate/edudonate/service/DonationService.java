@@ -15,11 +15,31 @@ public class DonationService {
         this.donationRepository = donationRepository;
     }
 
-    public Donation saveDonation(Donation donation) {
-        return donationRepository.save(donation);
-    }
-
+    // ✅ Get all donations
     public List<Donation> getAllDonations() {
         return donationRepository.findAll();
+    }
+
+    // ✅ Save a new donation
+    public void saveDonation(Donation donation) {
+        donationRepository.save(donation);
+    }
+
+    // ✅ Search donations by keyword + type
+    public List<Donation> searchDonations(String keyword, String type) {
+        if (keyword != null && !keyword.isEmpty() && type != null && !type.isEmpty()) {
+            return donationRepository.findByItemTypeContainingIgnoreCaseAndDescriptionContainingIgnoreCase(type, keyword);
+        } else if (type != null && !type.isEmpty()) {
+            return donationRepository.findByItemTypeContainingIgnoreCase(type);
+        } else if (keyword != null && !keyword.isEmpty()) {
+            return donationRepository.findByDescriptionContainingIgnoreCaseOrDonorNameContainingIgnoreCase(keyword, keyword);
+        } else {
+            return donationRepository.findAll();
+        }
+    }
+
+    // ✅ Get latest donations (e.g., last 5)
+    public List<Donation> getLatestDonations(int limit) {
+        return donationRepository.findTop5ByOrderByIdDesc();
     }
 }
