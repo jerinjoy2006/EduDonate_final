@@ -10,32 +10,41 @@ import java.util.List;
 public class ExchangeService {
     private final ExchangeRepository repo;
 
-    // Constructor Injection (best practice in Spring)
     public ExchangeService(ExchangeRepository repo) {
         this.repo = repo;
     }
 
-    // Create a new exchange request
+    // Create a new exchange listing
     public Exchange createExchange(Exchange exchange) {
         return repo.save(exchange);
     }
 
-    // Get all exchanges involving a specific user
-    public List<Exchange> getUserExchanges(String username) {
-        return repo.findByFromUserOrToUser(username, username);
+    // Get all exchanges
+    public List<Exchange> getAll() {
+        return repo.findAll();
     }
 
-    // Update the status of an exchange
-    public Exchange updateStatus(String id, Exchange.Status status) {
-        return repo.findById(id).map(e -> {
-            e.setStatus(status);
-            return repo.save(e);
+    // Accept an exchange
+    public Exchange acceptExchange(String id, String username) {
+        return repo.findById(id).map(ex -> {
+            if (ex.getStatus() == Exchange.Status.PENDING) {
+                ex.setAcceptedBy(username);
+                ex.setStatus(Exchange.Status.ACCEPTED);
+                return repo.save(ex);
+            }
+            return ex;
         }).orElseThrow(() -> new RuntimeException("Exchange not found: " + id));
     }
 
-    // Get all exchange requests
-    public List<Exchange> getAll() {
-        return repo.findAll();
+    // Mark exchange as completed
+    public Exchange completeExchange(String id) {
+        return repo.findById(id).map(ex -> {
+            if (ex.getStatus() == Exchange.Status.ACCEPTED) {
+                ex.setStatus(Exchange.Status.COMPLETED);
+                return repo.save(ex);
+            }
+            return ex;
+        }).orElseThrow(() -> new RuntimeException("Exchange not found: " + id));
     }
 }
 
