@@ -20,14 +20,14 @@
 <body class="container py-4">
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="fw-bold text-primary">📦 Available Donations</h2>
+    <h2 class="fw-bold text-primary">📦 Donations</h2>
     <div>
         <a href="/donations/new" class="btn btn-success me-2">➕ Add Donation</a>
         <a href="/dashboard" class="btn btn-outline-primary">🏠 Dashboard</a>
     </div>
 </div>
 
-<!-- Filter Dropdown -->
+<!-- Filter -->
 <div class="row mb-4">
     <div class="col-md-4">
         <label class="form-label fw-semibold">Filter by Type:</label>
@@ -42,7 +42,6 @@
     </div>
 </div>
 
-<!-- Donations Grid -->
 <div class="row" th:if="${donations != null}">
     <div class="col-md-4 mb-4" th:each="donation : ${donations}">
         <div class="card donation-card h-100">
@@ -68,7 +67,6 @@
     </div>
 </div>
 
-<!-- No donations -->
 <div th:if="${#lists.isEmpty(donations)}" class="alert alert-warning mt-4">
     🚫 No donations available at the moment.
 </div>
