@@ -26,12 +26,12 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/register", "/css/**", "/js/**").permitAll()
+                        .requestMatchers("/register", "/login", "/css/**", "/js/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(login -> login
                         .loginPage("/login")
-                        .defaultSuccessUrl("/dashboard", true) // After login, go to dashboard
+                        .defaultSuccessUrl("/dashboard", true) // Redirect to dashboard after login
                         .permitAll()
                 )
                 .logout(logout -> logout

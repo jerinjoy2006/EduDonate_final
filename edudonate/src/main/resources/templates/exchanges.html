@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Exchanges</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        body {
+            background: #f8f9fa;
+        }
+        .exchange-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .exchange-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="container py-4">
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold text-primary">🔄 Exchanges</h2>
+    <div>
+        <a href="/exchange/new" class="btn btn-success me-2">+ New Exchange</a>
+        <a href="/dashboard" class="btn btn-outline-primary">🏠 Dashboard</a>
+    </div>
+</div>
+
+<!-- Exchange List -->
+<div class="row">
+    <div class="col-12">
+        <div class="list-group">
+            <div th:each="ex : ${exchanges}" class="list-group-item exchange-card mb-2">
+                <h5 class="mb-1">
+                    <span th:text="${ex.fromUser}"></span> offers
+                    <strong th:text="${ex.itemOffered}"></strong>
+                    for
+                    <strong th:text="${ex.itemRequested}"></strong>
+                    from <span th:text="${ex.toUser}"></span>
+                </h5>
+                <small>Status: <span th:text="${ex.status}"></span></small>
+                <br/>
+                <small>Created at: <span th:text="${ex.createdAt}"></span></small>
+                <div class="mt-2">
+                    <a th:href="@{'/exchange/' + ${ex.id} + '/status?status=ACCEPTED'}"
+                       class="btn btn-sm btn-success">Accept</a>
+                    <a th:href="@{'/exchange/' + ${ex.id} + '/status?status=REJECTED'}"
+                       class="btn btn-sm btn-danger">Reject</a>
+                    <a th:href="@{'/exchange/' + ${ex.id} + '/status?status=COMPLETED'}"
+                       class="btn btn-sm btn-secondary">Complete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
