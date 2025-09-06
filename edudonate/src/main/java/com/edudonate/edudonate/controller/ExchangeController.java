@@ -21,14 +21,20 @@ public class ExchangeController {
     @GetMapping("/browse")
     public String browseExchanges(Model model) {
         model.addAttribute("exchanges", service.getAll());
-        return "exchanges"; // loads exchanges.html
+        return "exchanges"; // loads templates/exchanges.html
+    }
+
+    // Fallback for /exchange/list → redirects to /exchange/browse
+    @GetMapping("/list")
+    public String listRedirect() {
+        return "redirect:/exchange/browse";
     }
 
     // Show form to create a new exchange
     @GetMapping("/new")
     public String showNewExchangeForm(Model model) {
         model.addAttribute("exchange", new Exchange());
-        return "new-exchange"; // loads new-exchange.html
+        return "new-exchange"; // loads templates/new-exchange.html
     }
 
     // Handle form submission (create listing)
@@ -41,27 +47,24 @@ public class ExchangeController {
     // Accept an exchange
     @PostMapping("/accept/{id}")
     public String acceptExchange(@PathVariable String id) {
-        service.acceptExchange(id, "VisitorUser"); // Replace "VisitorUser" with logged-in user later
+        service.acceptExchange(id, "VisitorUser"); // Replace with logged-in user later
         return "redirect:/exchange/browse";
     }
 
-    /* ---------------- REST API (optional for testing in Postman) ---------------- */
+    /* ---------------- REST API (optional for Postman testing) ---------------- */
 
-    // Get all exchanges as JSON
     @GetMapping("/api")
     @ResponseBody
     public java.util.List<Exchange> getAllExchangesApi() {
         return service.getAll();
     }
 
-    // Create exchange via JSON (API)
     @PostMapping("/api")
     @ResponseBody
     public Exchange createExchangeApi(@RequestBody Exchange exchange) {
         return service.createExchange(exchange);
     }
 
-    // Accept exchange via API
     @PutMapping("/api/{id}/accept")
     @ResponseBody
     public Exchange acceptExchangeApi(@PathVariable String id) {

@@ -13,7 +13,7 @@ public class Exchange {
     private String itemOffered;    // Item being offered
     private String itemRequested;  // Item being requested
 
-    private String acceptedBy;     // User who accepts the exchange (initially null)
+    private String toUser;         // User who accepts the exchange (instead of acceptedBy)
 
     @Enumerated(EnumType.STRING)
     private Status status;
@@ -66,12 +66,12 @@ public class Exchange {
         this.itemRequested = itemRequested;
     }
 
-    public String getAcceptedBy() {
-        return acceptedBy;
+    public String getToUser() {
+        return toUser;
     }
 
-    public void setAcceptedBy(String acceptedBy) {
-        this.acceptedBy = acceptedBy;
+    public void setToUser(String toUser) {
+        this.toUser = toUser;
     }
 
     public Status getStatus() {
@@ -90,5 +90,3 @@ public class Exchange {
         this.createdAt = createdAt;
     }
 }
-
-

@@ -28,7 +28,7 @@ public class ExchangeService {
     public Exchange acceptExchange(String id, String username) {
         return repo.findById(id).map(ex -> {
             if (ex.getStatus() == Exchange.Status.PENDING) {
-                ex.setAcceptedBy(username);
+                ex.setToUser(username); // ✅ changed from setAcceptedBy to setToUser
                 ex.setStatus(Exchange.Status.ACCEPTED);
                 return repo.save(ex);
             }
@@ -47,4 +47,3 @@ public class ExchangeService {
         }).orElseThrow(() -> new RuntimeException("Exchange not found: " + id));
     }
 }
-

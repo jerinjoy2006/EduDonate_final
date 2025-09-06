@@ -7,42 +7,73 @@
 </head>
 <body class="bg-light">
 
-<div class="container mt-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="fw-bold text-primary">🔄 Exchange Listings</h2>
-        <div>
-            <a th:href="@{/exchange/new}" class="btn btn-success me-2">➕ New Exchange</a>
-            <a th:href="@{/dashboard}" class="btn btn-outline-primary">🏠 Dashboard</a>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-success">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">EduDonate</a>
+        <div class="d-flex">
+            <a th:href="@{/dashboard}" class="btn btn-outline-light me-2">Dashboard</a>
+            <a th:href="@{/logout}" class="btn btn-danger">Logout</a>
         </div>
+    </div>
+</nav>
+
+<!-- Page Content -->
+<div class="container mt-5">
+    <h2 class="mb-4">🔄 Exchange Requests</h2>
+
+    <!-- If no exchanges -->
+    <div th:if="${#lists.isEmpty(exchanges)}" class="alert alert-info">
+        No exchange requests yet.
     </div>
 
     <!-- Table of exchanges -->
-    <table class="table table-bordered table-hover shadow">
-        <thead class="table-primary">
+    <table th:if="${!#lists.isEmpty(exchanges)}" class="table table-bordered table-hover shadow-sm">
+        <thead class="table-success">
         <tr>
             <th>From User</th>
             <th>Item Offered</th>
             <th>Item Requested</th>
+            <th>To User</th>
             <th>Status</th>
-            <th>Accepted By</th>
+            <th>Created At</th>
             <th>Action</th>
         </tr>
         </thead>
         <tbody>
-        <!-- Loop through each exchange -->
         <tr th:each="ex : ${exchanges}">
-            <td th:text="${ex.fromUser}"></td>
-            <td th:text="${ex.itemOffered}"></td>
-            <td th:text="${ex.itemRequested}"></td>
-            <td th:text="${ex.status}"></td>
-            <td th:text="${ex.acceptedBy != null ? ex.acceptedBy : '---'}"></td>
+            <td th:text="${ex.fromUser}">From User</td>
+            <td th:text="${ex.itemOffered}">Book</td>
+            <td th:text="${ex.itemRequested}">Pen</td>
+            <td th:text="${ex.toUser}">To User</td>
             <td>
-                <!-- Accept button if still pending -->
-                <form th:action="@{'/exchange/accept/' + ${ex.id}}" method="post">
-                    <button type="submit" class="btn btn-success btn-sm"
-                            th:if="${ex.status == 'PENDING'}">Accept</button>
-                    <span th:if="${ex.status != 'PENDING'}">Not Available</span>
-                </form>
+                <!-- Status with badges -->
+                <span class="badge bg-warning text-dark"
+                      th:if="${ex.status == T(com.edudonate.edudonate.model.Exchange.Status).PENDING}">
+                          Pending
+                    </span>
+                <span class="badge bg-primary"
+                      th:if="${ex.status == T(com.edudonate.edudonate.model.Exchange.Status).ACCEPTED}">
+                          Accepted
+                    </span>
+                <span class="badge bg-success"
+                      th:if="${ex.status == T(com.edudonate.edudonate.model.Exchange.Status).COMPLETED}">
+                          Completed
+                    </span>
+            </td>
+            <td th:text="${ex.createdAt}">2025-09-06</td>
+            <td>
+                <!-- Action buttons depending on status -->
+                <div th:if="${ex.status == T(com.edudonate.edudonate.model.Exchange.Status).PENDING}">
+                    <a th:href="@{'/exchange/accept/' + ${ex.id}}" class="btn btn-sm btn-success">Accept</a>
+                    <a th:href="@{'/exchange/reject/' + ${ex.id}}" class="btn btn-sm btn-danger">Reject</a>
+                </div>
+                <div th:if="${ex.status == T(com.edudonate.edudonate.model.Exchange.Status).ACCEPTED}">
+                    <a th:href="@{'/exchange/complete/' + ${ex.id}}" class="btn btn-sm btn-primary">Mark Completed</a>
+                </div>
+                <div th:if="${ex.status == T(com.edudonate.edudonate.model.Exchange.Status).COMPLETED}">
+                    ✅ Done
+                </div>
             </td>
         </tr>
         </tbody>
