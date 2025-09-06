@@ -31,7 +31,7 @@ public class AuthController {
     // Handle register
     @PostMapping("/register")
     public String register(@ModelAttribute User user) {
-        userService.saveUser(user);
+        userService.registerUser(user);
         return "redirect:/login?registered";
     }
 

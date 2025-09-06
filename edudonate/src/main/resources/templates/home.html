@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,8 +27,8 @@
                 <a href="#" class="text-gray-700 hover:text-orange-500 transition-colors">About</a>
             </div>
             <div class="flex space-x-4">
-                <button class="text-orange-500 hover:text-orange-700 font-medium transition-colors">Sign In</button>
-                <button class="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors">Join Now</button>
+                <a href="/login" class="text-orange-500 hover:text-orange-700 font-medium transition-colors">Login</a>
+                <a href="/register" class="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors">Register</a>
             </div>
         </div>
     </div>
@@ -37,8 +37,8 @@
 <!-- Hero Section -->
 <section class="gradient-bg text-white py-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h1 class="text-5xl md:text-6xl font-bold mb-6">Share. Learn. Save.</h1>
-        <p class="text-xl md:text-2xl mb-8 opacity-90">Connect with fellow students to rent, donate, and exchange educational materials</p>
+        <h1 class="text-5xl md:text-6xl font-bold mb-6">Welcome to EduDonate 🎓</h1>
+        <p class="text-xl md:text-2xl mb-8 opacity-90">Empowering education through donations! Connect with fellow students to rent, donate, and exchange educational materials</p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
             <button class="bg-white text-orange-500 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-colors">Start Browsing</button>
             <button class="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-orange-500 transition-colors">List Your Items</button>
@@ -136,7 +136,7 @@
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h2 class="text-4xl font-bold mb-6">Ready to Start Saving?</h2>
         <p class="text-xl mb-8 opacity-90">Join thousands of students who are already sharing and saving on educational materials</p>
-        <button class="bg-white text-orange-500 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-colors">Get Started Today</button>
+        <a href="/register" class="inline-block bg-white text-orange-500 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-colors">Get Started Today</a>
     </div>
 </section>
 
@@ -178,5 +178,5 @@
         </div>
     </div>
 </footer>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97ae5b73c4197f8b',t:'MTc1NzE2NTgwNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97ae9a852162913b',t:'MTc1NzE2ODM5MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
