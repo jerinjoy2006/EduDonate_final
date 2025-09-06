@@ -16,26 +16,23 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    /**
-     * Save a new user into the database.
-     * Ensures password is encoded and role is set.
-     */
+    // Save a new user (with encoded password)
     public User saveUser(User user) {
-        // Encode the password before saving
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-
-        // If no role is provided, assign default role USER
         if (user.getRole() == null || user.getRole().isEmpty()) {
-            user.setRole("USER");  // ✅ default role
+            user.setRole("USER");
         }
-
         return userRepository.save(user);
     }
 
-    /**
-     * Find user by username.
-     */
+    // Find user by username
     public User findByUsername(String username) {
         return userRepository.findByUsername(username).orElse(null);
+    }
+
+    // ✅ Validate login
+    public boolean validateUser(String username, String rawPassword) {
+        User user = findByUsername(username);
+        return user != null && passwordEncoder.matches(rawPassword, user.getPassword());
     }
 }
