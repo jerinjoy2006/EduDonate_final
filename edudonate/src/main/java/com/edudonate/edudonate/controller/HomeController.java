@@ -6,14 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HomeController {
 
-    @GetMapping("/")   // root URL → homepage
-    public String homePage() {
-        return "home"; // loads home.html
-    }
-
-    @GetMapping("/home") // optional: /home also works
-    public String homeAlias() {
-        return "home";
+    @GetMapping("/")
+    public String home() {
+        return "home";  // home.html in templates folder
     }
 }
-

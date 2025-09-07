@@ -1,182 +1,100 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EduDonate - Share. Learn. Save.</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>EduDonate - Home</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; }
-        .gradient-bg { background: linear-gradient(135deg, #fb923c 0%, #ea580c 100%); }
-        .card-hover { transition: transform 0.3s ease, box-shadow 0.3s ease; }
-        .card-hover:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        /* Custom orange theme overrides */
+        .bg-orange {
+            background-color: #ff6f00 !important; /* deep orange */
+        }
+        .text-orange {
+            color: #ff6f00 !important;
+        }
+        .btn-orange {
+            background-color: #ff6f00;
+            border: none;
+            color: #fff;
+        }
+        .btn-orange:hover {
+            background-color: #e65100;
+            color: #fff;
+        }
+        .btn-outline-orange {
+            border: 2px solid #ff6f00;
+            color: #ff6f00;
+        }
+        .btn-outline-orange:hover {
+            background-color: #ff6f00;
+            color: #fff;
+        }
     </style>
 </head>
-<body class="bg-gray-50">
-<!-- Navigation -->
-<nav class="bg-white shadow-sm sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center h-16">
-            <div class="flex items-center">
-                <div class="text-2xl font-bold text-orange-500">📚 EduDonate</div>
-            </div>
-            <div class="hidden md:flex space-x-8">
-                <a href="#" class="text-gray-700 hover:text-orange-500 transition-colors">Browse Items</a>
-                <a href="#" class="text-gray-700 hover:text-orange-500 transition-colors">How It Works</a>
-                <a href="#" class="text-gray-700 hover:text-orange-500 transition-colors">About</a>
-            </div>
-            <div class="flex space-x-4">
-                <a href="/login" class="text-orange-500 hover:text-orange-700 font-medium transition-colors">Login</a>
-                <a href="/register" class="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors">Register</a>
-            </div>
+<body>
+
+<!-- 🔹 Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-orange">
+    <div class="container-fluid">
+        <a class="navbar-brand fw-bold" href="#">EduDonate</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/login}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/register}">Register</a>
+                </li>
+            </ul>
         </div>
     </div>
 </nav>
 
-<!-- Hero Section -->
-<section class="gradient-bg text-white py-20">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h1 class="text-5xl md:text-6xl font-bold mb-6">Welcome to EduDonate 🎓</h1>
-        <p class="text-xl md:text-2xl mb-8 opacity-90">Empowering education through donations! Connect with fellow students to rent, donate, and exchange educational materials</p>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <button class="bg-white text-orange-500 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-colors">Start Browsing</button>
-            <button class="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-orange-500 transition-colors">List Your Items</button>
+<!-- 🔹 Hero Section -->
+<header class="text-center py-5 bg-light">
+    <div class="container">
+        <h1 class="display-4 fw-bold text-orange">Welcome to EduDonate 🎓</h1>
+        <p class="lead text-muted">Empowering education through donations, rentals, and exchanges.</p>
+        <div class="mt-4">
+            <a th:href="@{/login}" class="btn btn-orange btn-lg me-2">Login</a>
+            <a th:href="@{/register}" class="btn btn-outline-orange btn-lg">Register</a>
         </div>
     </div>
-</section>
+</header>
 
-<!-- Stats Section -->
-<section class="bg-white py-16">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-            <div>
-                <div class="text-4xl font-bold text-orange-500 mb-2">5,000+</div>
-                <div class="text-gray-600">Items Shared</div>
-            </div>
-            <div>
-                <div class="text-4xl font-bold text-orange-500 mb-2">2,500+</div>
-                <div class="text-gray-600">Active Students</div>
-            </div>
-            <div>
-                <div class="text-4xl font-bold text-orange-500 mb-2">$50K+</div>
-                <div class="text-gray-600">Money Saved</div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Categories Section -->
-<section class="py-20 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-16">
-            <h2 class="text-4xl font-bold text-gray-900 mb-4">What Can You Find?</h2>
-            <p class="text-xl text-gray-600">Everything you need for your academic journey</p>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div class="bg-white p-8 rounded-xl shadow-sm card-hover text-center">
-                <div class="text-4xl mb-4">📖</div>
-                <h3 class="text-xl font-semibold mb-2">Textbooks</h3>
-                <p class="text-gray-600">Course books, reference materials, and study guides</p>
-            </div>
-            <div class="bg-white p-8 rounded-xl shadow-sm card-hover text-center">
-                <div class="text-4xl mb-4">🧮</div>
-                <h3 class="text-xl font-semibold mb-2">Calculators</h3>
-                <p class="text-gray-600">Scientific, graphing, and specialized calculators</p>
-            </div>
-            <div class="bg-white p-8 rounded-xl shadow-sm card-hover text-center">
-                <div class="text-4xl mb-4">🥽</div>
-                <h3 class="text-xl font-semibold mb-2">Lab Equipment</h3>
-                <p class="text-gray-600">Lab coats, goggles, and scientific instruments</p>
-            </div>
-            <div class="bg-white p-8 rounded-xl shadow-sm card-hover text-center">
-                <div class="text-4xl mb-4">💻</div>
-                <h3 class="text-xl font-semibold mb-2">Tech & More</h3>
-                <p class="text-gray-600">Laptops, tablets, and other study materials</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- How It Works -->
-<section class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-16">
-            <h2 class="text-4xl font-bold text-gray-900 mb-4">How EduDonate Works</h2>
-            <p class="text-xl text-gray-600">Simple steps to start sharing and saving</p>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
-            <div class="text-center">
-                <div class="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <span class="text-2xl font-bold text-orange-500">1</span>
+<!-- 🔹 Features Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-4 mb-3">
+                <div class="card shadow-sm p-4 border-0">
+                    <h3 class="text-orange">🎁 Donations</h3>
+                    <p>Contribute educational resources and support students in need.</p>
                 </div>
-                <h3 class="text-xl font-semibold mb-4">Sign Up</h3>
-                <p class="text-gray-600">Create your student account and join the community</p>
             </div>
-            <div class="text-center">
-                <div class="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <span class="text-2xl font-bold text-orange-500">2</span>
+            <div class="col-md-4 mb-3">
+                <div class="card shadow-sm p-4 border-0">
+                    <h3 class="text-orange">📚 Rentals</h3>
+                    <p>Share or rent books, materials, and more with your peers.</p>
                 </div>
-                <h3 class="text-xl font-semibold mb-4">Browse & Connect</h3>
-                <p class="text-gray-600">Find items you need or list items you want to share</p>
             </div>
-            <div class="text-center">
-                <div class="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <span class="text-2xl font-bold text-orange-500">3</span>
+            <div class="col-md-4 mb-3">
+                <div class="card shadow-sm p-4 border-0">
+                    <h3 class="text-orange">🔄 Exchange</h3>
+                    <p>Swap educational resources and promote collaborative learning.</p>
                 </div>
-                <h3 class="text-xl font-semibold mb-4">Exchange</h3>
-                <p class="text-gray-600">Rent, donate, or trade items with fellow students</p>
             </div>
         </div>
     </div>
 </section>
 
-<!-- CTA Section -->
-<section class="gradient-bg text-white py-20">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 class="text-4xl font-bold mb-6">Ready to Start Saving?</h2>
-        <p class="text-xl mb-8 opacity-90">Join thousands of students who are already sharing and saving on educational materials</p>
-        <a href="/register" class="inline-block bg-white text-orange-500 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-colors">Get Started Today</a>
-    </div>
-</section>
-
-<!-- Footer -->
-<footer class="bg-gray-900 text-white py-12">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div>
-                <div class="text-2xl font-bold mb-4">📚 EduDonate</div>
-                <p class="text-gray-400">Connecting students to share educational resources and save money.</p>
-            </div>
-            <div>
-                <h4 class="font-semibold mb-4">Platform</h4>
-                <ul class="space-y-2 text-gray-400">
-                    <li><a href="#" class="hover:text-white transition-colors">Browse Items</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">List Items</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">How It Works</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="font-semibold mb-4">Support</h4>
-                <ul class="space-y-2 text-gray-400">
-                    <li><a href="#" class="hover:text-white transition-colors">Help Center</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">Safety</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">Contact Us</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="font-semibold mb-4">Company</h4>
-                <ul class="space-y-2 text-gray-400">
-                    <li><a href="#" class="hover:text-white transition-colors">About</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">Privacy</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">Terms</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 EduDonate. All rights reserved.</p>
-        </div>
-    </div>
+<!-- 🔹 Footer -->
+<footer class="bg-orange text-white text-center py-3">
+    <p class="mb-0">&copy; 2025 EduDonate. All rights reserved.</p>
 </footer>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97ae9a852162913b',t:'MTc1NzE2ODM5MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>
