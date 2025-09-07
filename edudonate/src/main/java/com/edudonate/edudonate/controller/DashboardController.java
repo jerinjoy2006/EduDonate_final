@@ -17,16 +17,32 @@ public class DashboardController {
         this.donationService = donationService;
     }
 
+    // ✅ Dashboard (main page after login)
     @GetMapping("/dashboard")
     public String dashboardPage(Model model) {
         model.addAttribute("title", "EduDonate Dashboard");
-        return "dashboard";
+        return "dashboard"; // dashboard.html
     }
 
+    // ✅ Donations page
     @GetMapping("/donations-page")
     public String donationsPage(Model model) {
         List<Donation> donations = donationService.getAllDonations();
         model.addAttribute("donations", donations);
-        return "donations"; // maps to donations.html
+        return "donations"; // donations.html
+    }
+
+    // ✅ Rent page
+    @GetMapping("/rent-page")
+    public String rentPage(Model model) {
+        model.addAttribute("title", "Rent Items");
+        return "rent"; // rent.html
+    }
+
+    // ✅ Exchange page
+    @GetMapping("/exchange-page")
+    public String exchangePage(Model model) {
+        model.addAttribute("title", "Exchange Items");
+        return "exchange"; // exchange.html
     }
 }
