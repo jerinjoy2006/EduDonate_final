@@ -36,12 +36,14 @@ public class AuthController {
     public String login(@RequestParam String username,
                         @RequestParam String password,
                         HttpSession session) {
-        User user = userService.findByUsername(username);
-        if (user != null && userService.validateUser(username, password)) {
-            session.setAttribute("user", user);
-            return "redirect:/welcome";
-        }
-        return "redirect:/login?error=true";
+
+        return userService.findByUsername(username)
+                .filter(user -> userService.validateUser(username, password)) // validate password
+                .map(user -> {
+                    session.setAttribute("user", user);
+                    return "redirect:/welcome";
+                })
+                .orElse("redirect:/login?error=true");
     }
 
     // Show registration page
@@ -55,14 +57,15 @@ public class AuthController {
     public String register(@RequestParam String username,
                            @RequestParam String password,
                            RedirectAttributes redirectAttributes) {
-        User newUser = new User(username, password, "USER");
+        User newUser = new User(username, password, "ROLE_USER"); // use ROLE_USER
         boolean success = userService.registerUser(newUser);
+
         if (!success) {
             redirectAttributes.addFlashAttribute("errorMessage", "Username already exists!");
             return "redirect:/register";
         }
         redirectAttributes.addFlashAttribute("successMessage", "Registration successful! Please login.");
-        return "redirect:/login";
+        return "redirect:/login?registered=true";
     }
 
     // Welcome page (only for logged-in users)
@@ -80,4 +83,3 @@ public class AuthController {
         return "redirect:/login?logout=true";
     }
 }
-
