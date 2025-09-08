@@ -54,16 +54,40 @@ public class AuthController {
 
     // Process registration form
     @PostMapping("/register")
-    public String register(@RequestParam String username,
+    public String register(@RequestParam String name,
+                           @RequestParam String className,
+                           @RequestParam int semester,
+                           @RequestParam String email,
+                           @RequestParam String phone,
+                           @RequestParam String username,
                            @RequestParam String password,
+                           @RequestParam String confirmPassword,
                            RedirectAttributes redirectAttributes) {
-        User newUser = new User(username, password, "ROLE_USER"); // use ROLE_USER
+
+        // ✅ Check password confirmation
+        if (!password.equals(confirmPassword)) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Passwords do not match!");
+            return "redirect:/register";
+        }
+
+        // ✅ Create new user object (extend User class to store extra details)
+        User newUser = new User();
+        newUser.setName(name);
+        newUser.setClassName(className);
+        newUser.setSemester(semester);
+        newUser.setEmail(email);
+        newUser.setPhone(phone);
+        newUser.setUsername(username);
+        newUser.setPassword(password);
+        newUser.setRole("ROLE_USER");
+
         boolean success = userService.registerUser(newUser);
 
         if (!success) {
             redirectAttributes.addFlashAttribute("errorMessage", "Username already exists!");
             return "redirect:/register";
         }
+
         redirectAttributes.addFlashAttribute("successMessage", "Registration successful! Please login.");
         return "redirect:/login?registered=true";
     }
