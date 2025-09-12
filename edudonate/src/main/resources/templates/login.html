@@ -7,6 +7,16 @@
 </head>
 <body class="bg-light d-flex align-items-center justify-content-center vh-100">
 
+<!-- ✅ Success message -->
+<div th:if="${successMessage}" class="alert alert-success text-center w-50 mb-3">
+    <p th:text="${successMessage}"></p>
+</div>
+
+<!-- ✅ Error message -->
+<div th:if="${errorMessage}" class="alert alert-danger text-center w-50 mb-3">
+    <p th:text="${errorMessage}"></p>
+</div>
+
 <div class="card shadow p-4" style="width: 25rem;">
     <h3 class="text-center mb-4">EduDonate Login</h3>
 
@@ -31,3 +41,4 @@
 
 </body>
 </html>
+
