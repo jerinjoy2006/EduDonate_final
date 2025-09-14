@@ -3,82 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <title>Exchanges | EduDonate</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light">
 
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-success">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="/">EduDonate</a>
-        <div class="d-flex">
-            <a th:href="@{/dashboard}" class="btn btn-outline-light me-2">Dashboard</a>
+    <!-- Bootstrap for layout -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
+    <!-- ✅ Inline page-specific styles -->
+    <style>
+        body {
+            background: #fff8f2;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .navbar-brand {
+            color: #FF6600 !important;
+            font-weight: 600;
+        }
+        h1.page-title {
+            text-align: center;
+            margin: 40px 0 20px;
+            color: #FF6600;
+            font-weight: 700;
+        }
+        .exchange-card {
+            border: 1px solid #eee;
+            border-radius: 10px;
+            padding: 20px;
+            transition: 0.2s;
+            background: #ffffff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .exchange-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+        .btn-primary {
+            background-color: #FF6600;
+            border-color: #FF6600;
+        }
+        .btn-primary:hover {
+            background-color: #e05500;
+            border-color: #e05500;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- Top navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+    <div class="container">
+        <a class="navbar-brand" href="#" th:href="@{/}">EduDonate</a>
+        <div class="ms-auto">
+            <a th:href="@{/dashboard}" class="btn btn-outline-primary me-2">Dashboard</a>
             <a th:href="@{/logout}" class="btn btn-danger">Logout</a>
         </div>
     </div>
 </nav>
 
-<!-- Page Content -->
-<div class="container mt-5">
-    <h2 class="mb-4">🔄 Exchange Requests</h2>
+<div class="container">
+    <h1 class="page-title">Available Exchanges</h1>
 
-    <!-- If no exchanges -->
-    <div th:if="${#lists.isEmpty(exchanges)}" class="alert alert-info">
-        No exchange requests yet.
+    <!-- Button to add a new exchange -->
+    <div class="text-end mb-3">
+        <a th:href="@{/exchanges/new}" class="btn btn-primary">
+            + Add New Exchange
+        </a>
     </div>
 
-    <!-- Table of exchanges -->
-    <table th:if="${!#lists.isEmpty(exchanges)}" class="table table-bordered table-hover shadow-sm">
-        <thead class="table-success">
-        <tr>
-            <th>From User</th>
-            <th>Item Offered</th>
-            <th>Item Requested</th>
-            <th>To User</th>
-            <th>Status</th>
-            <th>Created At</th>
-            <th>Action</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="ex : ${exchanges}">
-            <td th:text="${ex.fromUser}">From User</td>
-            <td th:text="${ex.itemOffered}">Book</td>
-            <td th:text="${ex.itemRequested}">Pen</td>
-            <td th:text="${ex.toUser}">To User</td>
-            <td>
-                <!-- Status with badges -->
-                <span class="badge bg-warning text-dark"
-                      th:if="${ex.status == T(com.edudonate.edudonate.model.Exchange.Status).PENDING}">
-                          Pending
-                    </span>
-                <span class="badge bg-primary"
-                      th:if="${ex.status == T(com.edudonate.edudonate.model.Exchange.Status).ACCEPTED}">
-                          Accepted
-                    </span>
-                <span class="badge bg-success"
-                      th:if="${ex.status == T(com.edudonate.edudonate.model.Exchange.Status).COMPLETED}">
-                          Completed
-                    </span>
-            </td>
-            <td th:text="${ex.createdAt}">2025-09-06</td>
-            <td>
-                <!-- Action buttons depending on status -->
-                <div th:if="${ex.status == T(com.edudonate.edudonate.model.Exchange.Status).PENDING}">
-                    <a th:href="@{'/exchange/accept/' + ${ex.id}}" class="btn btn-sm btn-success">Accept</a>
-                    <a th:href="@{'/exchange/reject/' + ${ex.id}}" class="btn btn-sm btn-danger">Reject</a>
-                </div>
-                <div th:if="${ex.status == T(com.edudonate.edudonate.model.Exchange.Status).ACCEPTED}">
-                    <a th:href="@{'/exchange/complete/' + ${ex.id}}" class="btn btn-sm btn-primary">Mark Completed</a>
-                </div>
-                <div th:if="${ex.status == T(com.edudonate.edudonate.model.Exchange.Status).COMPLETED}">
-                    ✅ Done
-                </div>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <!-- List of exchanges -->
+    <div class="row g-4">
+        <div class="col-md-4" th:each="ex : ${exchanges}">
+            <div class="exchange-card h-100">
+                <h5 th:text="${ex.itemName}">Item name</h5>
+                <p><strong>Offered by:</strong> <span th:text="${ex.fromUser}">User</span></p>
+                <p><strong>Description:</strong> <span th:text="${ex.description}">Details here</span></p>
+                <a th:href="@{'/exchanges/' + ${ex.id}}" class="btn btn-primary btn-sm">
+                    View / Request Exchange
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
