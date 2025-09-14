@@ -1,92 +1,69 @@
 package com.edudonate.edudonate.model;
 
 import jakarta.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
+@Table(name = "exchanges")
 public class Exchange {
+
     @Id
     private String id;
 
-    private String fromUser;       // User who created the exchange
-    private String itemOffered;    // Item being offered
-    private String itemRequested;  // Item being requested
-
-    private String toUser;         // User who accepts the exchange (instead of acceptedBy)
+    private String fromUser;
+    private String itemOffered;
+    private String itemRequested;
+    private String acceptedBy;
 
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 
     public enum Status {
         PENDING, ACCEPTED, COMPLETED
     }
 
-    // Default constructor (required by JPA)
+    // Default constructor for JPA
     public Exchange() {}
 
-    // Constructor for creating a new exchange
+    // Convenience constructor
     public Exchange(String fromUser, String itemOffered, String itemRequested) {
         this.id = UUID.randomUUID().toString();
         this.fromUser = fromUser;
         this.itemOffered = itemOffered;
         this.itemRequested = itemRequested;
         this.status = Status.PENDING;
-        this.createdAt = LocalDate.now();
+        this.createdAt = LocalDateTime.now();
     }
 
-    // Getters and Setters
-    public String getId() {
-        return id;
+    @PrePersist
+    public void prePersist() {
+        if (this.id == null) this.id = UUID.randomUUID().toString();
+        if (this.createdAt == null) this.createdAt = LocalDateTime.now();
+        if (this.status == null) this.status = Status.PENDING;
     }
 
-    public String getFromUser() {
-        return fromUser;
-    }
+    // Getters & Setters (required by Thymeleaf/JPA)
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
-    public void setFromUser(String fromUser) {
-        this.fromUser = fromUser;
-    }
+    public String getFromUser() { return fromUser; }
+    public void setFromUser(String fromUser) { this.fromUser = fromUser; }
 
-    public String getItemOffered() {
-        return itemOffered;
-    }
+    public String getItemOffered() { return itemOffered; }
+    public void setItemOffered(String itemOffered) { this.itemOffered = itemOffered; }
 
-    public void setItemOffered(String itemOffered) {
-        this.itemOffered = itemOffered;
-    }
+    public String getItemRequested() { return itemRequested; }
+    public void setItemRequested(String itemRequested) { this.itemRequested = itemRequested; }
 
-    public String getItemRequested() {
-        return itemRequested;
-    }
+    public String getAcceptedBy() { return acceptedBy; }
+    public void setAcceptedBy(String acceptedBy) { this.acceptedBy = acceptedBy; }
 
-    public void setItemRequested(String itemRequested) {
-        this.itemRequested = itemRequested;
-    }
+    public Status getStatus() { return status; }
+    public void setStatus(Status status) { this.status = status; }
 
-    public String getToUser() {
-        return toUser;
-    }
-
-    public void setToUser(String toUser) {
-        this.toUser = toUser;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
-    public LocalDate getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDate createdAt) {
-        this.createdAt = createdAt;
-    }
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 }
