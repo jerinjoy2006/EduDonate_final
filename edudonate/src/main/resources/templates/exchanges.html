@@ -47,36 +47,34 @@
                 <td th:text="${ex.itemOffered}">Offered</td>
                 <td th:text="${ex.itemRequested}">Requested</td>
                 <td>
-            <span th:switch="${ex.status}">
-              <span th:case="'PENDING'" class="badge bg-warning text-dark" th:text="${ex.status}">PENDING</span>
-              <span th:case="'ACCEPTED'" class="badge bg-success" th:text="${ex.status}">ACCEPTED</span>
-              <span th:case="'COMPLETED'" class="badge bg-secondary" th:text="${ex.status}">COMPLETED</span>
-              <span th:case="*"><span th:text="${ex.status}">UNKNOWN</span></span>
-            </span>
+                    <span th:switch="${ex.status}">
+                        <span th:case="'PENDING'" class="badge bg-warning text-dark" th:text="${ex.status}">PENDING</span>
+                        <span th:case="'ACCEPTED'" class="badge bg-success" th:text="${ex.status}">ACCEPTED</span>
+                        <span th:case="'COMPLETED'" class="badge bg-secondary" th:text="${ex.status}">COMPLETED</span>
+                        <span th:case="*"><span th:text="${ex.status}">UNKNOWN</span></span>
+                    </span>
+                </td>
+
+                <!-- Accepted By column -->
+                <td th:text="${ex.acceptedBy} ?: '-'">-</td>
 
                 <td>
                     <!-- Accept button visible only when status is PENDING -->
                     <form th:action="@{'/exchange/accept/' + ${ex.id}}"
                           method="post"
                           th:if="${ex.status.name() == 'PENDING'}">
-                        <!-- CSRF token for Spring Security -->
                         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                         <button type="submit" class="btn btn-sm btn-success">Accept</button>
                     </form>
+
+                    <!-- Complete button visible only when status is ACCEPTED -->
                     <form th:action="@{'/exchange/complete/' + ${ex.id}}"
-                      method="post"
-                      th:if="${ex.status.name() == 'ACCEPTED'}">
-                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                    <button type="submit" class="btn btn-sm btn-primary">Complete</button>
+                          method="post"
+                          th:if="${ex.status.name() == 'ACCEPTED'}">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                        <button type="submit" class="btn btn-sm btn-primary">Complete</button>
                     </form>
-
-                <!-- If not pending, show who accepted and a 'Completed' button optionally -->
-                    <div th:if="${ex.status.name() != 'PENDING'}">
-                        <span th:text="${ex.status.name()}"></span>
-                        <span th:if="${ex.acceptedBy != null}"> by <strong th:text="${ex.acceptedBy}"></strong></span>
-                    </div>
                 </td>
-
             </tr>
 
             <tr th:if="${#lists.isEmpty(exchanges)}">
