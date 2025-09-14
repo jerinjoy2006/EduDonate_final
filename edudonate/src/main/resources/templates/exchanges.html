@@ -63,8 +63,14 @@
                         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                         <button type="submit" class="btn btn-sm btn-success">Accept</button>
                     </form>
+                    <form th:action="@{'/exchange/complete/' + ${ex.id}}"
+                      method="post"
+                      th:if="${ex.status.name() == 'ACCEPTED'}">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                    <button type="submit" class="btn btn-sm btn-primary">Complete</button>
+                    </form>
 
-                    <!-- If not pending, show who accepted and a 'Completed' button optionally -->
+                <!-- If not pending, show who accepted and a 'Completed' button optionally -->
                     <div th:if="${ex.status.name() != 'PENDING'}">
                         <span th:text="${ex.status.name()}"></span>
                         <span th:if="${ex.acceptedBy != null}"> by <strong th:text="${ex.acceptedBy}"></strong></span>
