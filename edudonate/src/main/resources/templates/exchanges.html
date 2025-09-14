@@ -2,76 +2,47 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Exchange Listings | EduDonate</title>
+    <title>New Exchange | EduDonate</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
-        body{background:#fff8f2;font-family:'Segoe UI',sans-serif;}
-        .brand{color:#FF6600;font-weight:700;}
-        .btn-brand{background:#FF6600;color:#fff;border:none;border-radius:8px;}
-        .btn-brand:hover{background:#e05500;}
-        .header-bar{
-            background:#FF6600;
-            border-radius:0 0 10px 10px;
-            padding:15px 20px;
-            color:#fff;
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
+        body { background:#fff8f2; font-family:'Segoe UI',sans-serif; }
+        h3 { color:#FF6600; }
+        .btn-success {
+            background-color:#FF6600; border-color:#FF6600;
         }
-        .exchange-card{border-radius:12px; box-shadow:0 2px 6px rgba(0,0,0,0.1);}
-        .status-badge{font-size:0.8rem;}
+        .btn-success:hover {
+            background-color:#e05500; border-color:#e05500;
+        }
     </style>
 </head>
 <body>
 
-<!-- Header -->
-<div class="header-bar">
-    <h2 class="m-0">🔄 Exchange Listings</h2>
-    <div>
-        <a th:href="@{/dashboard}" class="btn btn-light me-2">Dashboard</a>
-        <a th:href="@{/exchange/new}" class="btn btn-dark">➕ New Exchange</a>
-    </div>
-</div>
+<div class="container mt-4">
+    <div class="card p-4 shadow-sm">
+        <h3 class="mb-3">➕ Create New Exchange Listing</h3>
 
-<div class="container my-4">
-    <div class="row g-4">
-        <!-- Card for each exchange -->
-        <div class="col-md-4" th:each="ex : ${exchanges}">
-            <div class="card p-3 exchange-card">
-                <h5 class="brand mb-2" th:text="${ex.itemOffered}">Item Offered</h5>
-
-                <!-- Status badge -->
-                <span class="badge status-badge"
-                      th:classappend="${ex.status.name() == 'PENDING'} ? 'bg-warning text-dark' :
-                                      (ex.status.name() == 'ACCEPTED') ? 'bg-success' : 'bg-secondary'"
-                      th:text="${ex.status}">Status</span>
-
-                <p class="mt-2 mb-1"><strong>Requested:</strong> <span th:text="${ex.itemRequested}">Item Requested</span></p>
-                <p class="mb-1"><strong>From:</strong> <span th:text="${ex.fromUser}">User</span></p>
-                <p class="mb-3"><strong>Accepted By:</strong>
-                    <span th:text="${ex.acceptedBy} ?: '-'">-</span></p>
-
-                <!-- Action buttons -->
-                <div class="d-flex gap-2">
-                    <form th:action="@{'/exchange/accept/' + ${ex.id}}"
-                          method="post"
-                          th:if="${ex.status.name() == 'PENDING'}">
-                        <button type="submit" class="btn btn-sm btn-success">Accept</button>
-                    </form>
-
-                    <form th:action="@{'/exchange/complete/' + ${ex.id}}"
-                          method="post"
-                          th:if="${ex.status.name() == 'ACCEPTED'}">
-                        <button type="submit" class="btn btn-sm btn-primary">Complete</button>
-                    </form>
-                </div>
+        <form th:action="@{/exchange}" th:object="${exchange}" method="post">
+            <div class="mb-3">
+                <label class="form-label">Your Name</label>
+                <input type="text" th:field="*{fromUser}" class="form-control" required/>
             </div>
-        </div>
 
-        <!-- Message if no exchanges -->
-        <div th:if="${#lists.isEmpty(exchanges)}" class="text-center text-muted mt-5">
-            No exchange listings available.
-        </div>
+            <div class="mb-3">
+                <label class="form-label">Item Offered</label>
+                <input type="text" th:field="*{itemOffered}" class="form-control" required/>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Item Requested</label>
+                <input type="text" th:field="*{itemRequested}" class="form-control" required/>
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-success">Submit</button>
+                <a th:href="@{/exchange/browse}" class="btn btn-outline-secondary">Cancel</a>
+            </div>
+        </form>
     </div>
 </div>
 
