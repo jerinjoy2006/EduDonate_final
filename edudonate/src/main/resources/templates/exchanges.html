@@ -54,16 +54,13 @@
                         <span th:case="*"><span th:text="${ex.status}">UNKNOWN</span></span>
                     </span>
                 </td>
-
-                <!-- Accepted By column -->
-                 th:text="${ex.acceptedBy} ?: '-'"
+                <td th:text="${ex.acceptedBy} ?: '-'">-</td>
 
                 <td>
                     <!-- Accept button visible only when status is PENDING -->
                     <form th:action="@{'/exchange/accept/' + ${ex.id}}"
                           method="post"
                           th:if="${ex.status.name() == 'PENDING'}">
-                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                         <button type="submit" class="btn btn-sm btn-success">Accept</button>
                     </form>
 
@@ -71,7 +68,6 @@
                     <form th:action="@{'/exchange/complete/' + ${ex.id}}"
                           method="post"
                           th:if="${ex.status.name() == 'ACCEPTED'}">
-                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                         <button type="submit" class="btn btn-sm btn-primary">Complete</button>
                     </form>
                 </td>
