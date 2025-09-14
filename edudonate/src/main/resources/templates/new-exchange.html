@@ -18,7 +18,7 @@
         <h3 class="brand mb-3">➕ Create New Exchange Listing</h3>
 
         <form th:action="@{/exchange}" th:object="${exchange}" method="post">
-            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <input type="hidden" th:attr="name=${_csrf.parameterName}, value=${_csrf.token}" />
 
             <div class="mb-3">
                 <label class="form-label">Your Name</label>
