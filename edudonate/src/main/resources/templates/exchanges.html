@@ -53,7 +53,7 @@
               <span th:case="'COMPLETED'" class="badge bg-secondary" th:text="${ex.status}">COMPLETED</span>
               <span th:case="*"><span th:text="${ex.status}">UNKNOWN</span></span>
             </span>
-                    <!-- inside the <tr th:each="ex : ${exchanges}"> ... -->
+
                 <td>
                     <!-- Accept button visible only when status is PENDING -->
                     <form th:action="@{'/exchange/accept/' + ${ex.id}}"
