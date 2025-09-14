@@ -3,88 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <title>Exchanges | EduDonate</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Bootstrap for layout -->
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-
-    <!-- ✅ Inline page-specific styles -->
+    <!-- ✅ Inline CSS – no external file needed -->
     <style>
         body {
-            background: #fff8f2;
-            font-family: 'Segoe UI', sans-serif;
+            background:#fff8f2;
+            font-family:'Segoe UI',sans-serif;
         }
-        .navbar-brand {
-            color: #FF6600 !important;
-            font-weight: 600;
+        .navbar-brand { color:#FF6600!important; font-weight:600; }
+        h3 { color:#FF6600; }
+        .badge-warning { background-color:#ffc107; }
+        .btn-primary, .btn-success {
+            background-color:#FF6600; border-color:#FF6600;
         }
-        h1.page-title {
-            text-align: center;
-            margin: 40px 0 20px;
-            color: #FF6600;
-            font-weight: 700;
-        }
-        .exchange-card {
-            border: 1px solid #eee;
-            border-radius: 10px;
-            padding: 20px;
-            transition: 0.2s;
-            background: #ffffff;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-        .exchange-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
-        }
-        .btn-primary {
-            background-color: #FF6600;
-            border-color: #FF6600;
-        }
-        .btn-primary:hover {
-            background-color: #e05500;
-            border-color: #e05500;
+        .btn-primary:hover, .btn-success:hover {
+            background-color:#e05500; border-color:#e05500;
         }
     </style>
 </head>
-
 <body>
 
-<!-- Top navbar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
     <div class="container">
-        <a class="navbar-brand" href="#" th:href="@{/}">EduDonate</a>
-        <div class="ms-auto">
-            <a th:href="@{/dashboard}" class="btn btn-outline-primary me-2">Dashboard</a>
-            <a th:href="@{/logout}" class="btn btn-danger">Logout</a>
+        <a class="navbar-brand" th:href="@{/}">EduDonate</a>
+        <div class="d-flex">
+            <a th:href="@{/dashboard}" class="btn btn-outline-secondary me-2">Dashboard</a>
+            <a th:href="@{/exchange/new}" class="btn btn-success">➕ New Exchange</a>
         </div>
     </div>
 </nav>
 
-<div class="container">
-    <h1 class="page-title">Available Exchanges</h1>
-
-    <!-- Button to add a new exchange -->
-    <div class="text-end mb-3">
-        <a th:href="@{/exchanges/new}" class="btn btn-primary">
-            + Add New Exchange
-        </a>
+<div class="container mt-4">
+    <div class="card p-3 mb-3">
+        <h3 class="mb-0">🔄 Exchange Listings</h3>
+        <small class="text-muted">Browse items offered by other students</small>
     </div>
 
-    <!-- List of exchanges -->
-    <div class="row g-4">
-        <div class="col-md-4" th:each="ex : ${exchanges}">
-            <div class="exchange-card h-100">
-                <h5 th:text="${ex.itemName}">Item name</h5>
-                <p><strong>Offered by:</strong> <span th:text="${ex.fromUser}">User</span></p>
-                <p><strong>Description:</strong> <span th:text="${ex.description}">Details here</span></p>
-                <a th:href="@{'/exchanges/' + ${ex.id}}" class="btn btn-primary btn-sm">
-                    View / Request Exchange
-                </a>
-            </div>
-        </div>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead class="table-light">
+            <tr>
+                <th>From User</th><th>Item Offered</th><th>Item Requested</th>
+                <th>Status</th><th>Accepted By</th><th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="ex : ${exchanges}">
+                <td th:text="${ex.fromUser}">FromUser</td>
+                <td th:text="${ex.itemOffered}">Offered</td>
+                <td th:text="${ex.itemRequested}">Requested</td>
+                <td>
+            <span th:switch="${ex.status}">
+              <span th:case="'PENDING'" class="badge bg-warning text-dark" th:text="${ex.status}">PENDING</span>
+              <span th:case="'ACCEPTED'" class="badge bg-success" th:text="${ex.status}">ACCEPTED</span>
+              <span th:case="'COMPLETED'" class="badge bg-secondary" th:text="${ex.status}">COMPLETED</span>
+              <span th:case="*"><span th:text="${ex.status}">UNKNOWN</span></span>
+            </span>
+                </td>
+                <td th:text="${ex.acceptedBy != null ? ex.acceptedBy : '---'}">---</td>
+                <td>
+                    <form th:action="@{'/exchange/accept/' + ${ex.id}}" method="post" th:if="${ex.status == 'PENDING'}">
+                        <button type="submit" class="btn btn-primary btn-sm">Accept</button>
+                    </form>
+                    <span th:if="${ex.status != 'PENDING'}">Not Available</span>
+                </td>
+            </tr>
+
+            <tr th:if="${#lists.isEmpty(exchanges)}">
+                <td colspan="6" class="text-center text-muted">No exchange listings available.</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
