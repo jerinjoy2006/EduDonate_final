@@ -17,22 +17,25 @@
     <div class="card p-4 shadow-sm">
         <h3 class="brand mb-3">➕ Create New Exchange Listing</h3>
 
+        <!-- ⚡ Removed CSRF field because it causes 500 error if _csrf is null -->
         <form th:action="@{/exchange}" th:object="${exchange}" method="post">
-            <input type="hidden" th:attr="name=${_csrf.parameterName}, value=${_csrf.token}" />
 
             <div class="mb-3">
                 <label class="form-label">Your Name</label>
-                <input type="text" th:field="*{fromUser}" class="form-control" placeholder="Enter your name" required />
+                <input type="text" th:field="*{fromUser}" class="form-control"
+                       placeholder="Enter your name" required />
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Item Offered</label>
-                <input type="text" th:field="*{itemOffered}" class="form-control" placeholder="What are you offering?" required />
+                <input type="text" th:field="*{itemOffered}" class="form-control"
+                       placeholder="What are you offering?" required />
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Item Requested</label>
-                <input type="text" th:field="*{itemRequested}" class="form-control" placeholder="What do you want in return?" required />
+                <input type="text" th:field="*{itemRequested}" class="form-control"
+                       placeholder="What do you want in return?" required />
             </div>
 
             <div class="d-flex gap-2">
