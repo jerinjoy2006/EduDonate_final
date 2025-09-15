@@ -43,6 +43,6 @@ public class DashboardController {
     @GetMapping("/exchange-page")
     public String exchangePage(Model model) {
         model.addAttribute("title", "Exchange Items");
-        return "exchange"; // exchange.html
+        return "exchanges"; // exchange.html
     }
 }
