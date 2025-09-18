@@ -5,6 +5,8 @@ import com.edudonate.edudonate.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserService {
 
@@ -16,23 +18,22 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    // Register a new user
-    public boolean registerUser(User user) {
-        // Check if username already exists using Optional
-        if (userRepository.findByUsername(user.getUsername()).isPresent()) {
-            return false; // username already exists
-        }
-
-        // Encode password and save
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
-        return true; // registration successful
+    public Optional<User> findByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 
-    // Login method (authenticate user) using Optional filter
-    public User login(String username, String password) {
+    public boolean registerUser(User user) {
+        if (userRepository.findByUsername(user.getUsername()).isPresent()) {
+            return false; // username exists
+        }
+        user.setPassword(passwordEncoder.encode(user.getPassword())); // hash password
+        userRepository.save(user);
+        return true;
+    }
+
+    public boolean validateUser(String username, String rawPassword) {
         return userRepository.findByUsername(username)
-                .filter(user -> passwordEncoder.matches(password, user.getPassword()))
-                .orElse(null);
+                .map(user -> passwordEncoder.matches(rawPassword, user.getPassword()))
+                .orElse(false);
     }
 }

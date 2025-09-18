@@ -1,185 +1,555 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EduDonate - Transform Lives Through Sharing</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'orange': {
-                            50: '#fff7ed',
-                            100: '#ffedd5',
-                            200: '#fed7aa',
-                            300: '#fdba74',
-                            400: '#fb923c',
-                            500: '#f97316',
-                            600: '#ea580c',
-                            700: '#c2410c',
-                            800: '#9a3412',
-                            900: '#7c2d12',
-                        }
-                    }
-                }
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand-orange-50: #fff7ed;
+            --brand-orange-100: #ffedd5;
+            --brand-orange-200: #fed7aa;
+            --brand-orange-300: #fdba74;
+            --brand-orange-400: #fb923c;
+            --brand-orange-500: #f97316;
+            --brand-orange-600: #ea580c;
+            --brand-orange-700: #c2410c;
+            --brand-orange-800: #9a3412;
+            --brand-orange-900: #7c2d12;
+            --gray-900: #111827;
+            --gray-800: #1f2937;
+            --gray-700: #374151;
+            --gray-600: #4b5563;
+            --gray-400: #9ca3af;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(to bottom right, var(--brand-orange-50), var(--brand-orange-100));
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            color: var(--gray-900);
+        }
+
+        .container {
+            max-width: 1280px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
+        /* Header */
+        .header {
+            background-color: var(--white);
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            border-bottom: 4px solid var(--brand-orange-500);
+            padding: 1.5rem 0;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-icon-bg {
+            width: 3rem;
+            height: 3rem;
+            background: linear-gradient(to bottom right, var(--brand-orange-500), var(--brand-orange-600));
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-text {
+            font-size: 1.875rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--brand-orange-600), var(--brand-orange-800));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: none;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--gray-700);
+            font-weight: 500;
+            transition-property: color, background-color;
+            transition-duration: 200ms;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.5rem;
+        }
+
+        .nav-link:hover {
+            color: var(--brand-orange-600);
+            background-color: var(--brand-orange-50);
+        }
+
+        .btn-donations {
+            background-color: var(--brand-orange-500);
+            color: var(--white);
+            padding: 0.5rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            transition-property: background-color;
+            transition-duration: 200ms;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+
+        .btn-donations:hover {
+            background-color: var(--brand-orange-600);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+
+        .mobile-menu-btn {
+            display: block;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+        }
+
+        .mobile-menu-btn:hover {
+            background-color: var(--brand-orange-50);
+        }
+
+        .mobile-menu {
+            display: none;
+            padding-bottom: 1.5rem;
+            margin-top: 0.5rem;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .mobile-menu a {
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.5rem;
+            color: var(--gray-700);
+            font-weight: 500;
+        }
+
+        .mobile-menu a:hover {
+            color: var(--brand-orange-600);
+            background-color: var(--brand-orange-50);
+        }
+
+        @media (min-width: 768px) {
+            .nav-links {
+                display: flex;
+            }
+            .mobile-menu-btn, .mobile-menu {
+                display: none;
             }
         }
-    </script>
+
+        /* Hero Section */
+        .hero-section {
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            line-height: 1.25;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            color: var(--gray-900);
+        }
+
+        .hero-title span {
+            background: linear-gradient(to right, var(--brand-orange-500), var(--brand-orange-700));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: block;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            line-height: 1.625;
+            color: var(--gray-600);
+            margin-bottom: 2rem;
+            max-width: 42rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-orange-500);
+            color: var(--white);
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            font-size: 1.125rem;
+            transition-property: all;
+            transition-duration: 200ms;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--brand-orange-600);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            transform: translateY(-0.25rem);
+        }
+
+        .btn-secondary {
+            border: 2px solid var(--brand-orange-500);
+            color: var(--brand-orange-600);
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            font-size: 1.125rem;
+            transition-property: all;
+            transition-duration: 200ms;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--brand-orange-500);
+            color: var(--white);
+        }
+
+        @media (min-width: 640px) {
+            .hero-buttons {
+                flex-direction: row;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .hero-title {
+                font-size: 3.75rem;
+            }
+        }
+
+        /* Features Section */
+        .features-grid {
+            display: grid;
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        @media (min-width: 768px) {
+            .features-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .feature-card {
+            background-color: var(--white);
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            transition: box-shadow 300ms;
+            border-top: 4px solid var(--brand-orange-500);
+        }
+
+        .feature-card:hover {
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+
+        .feature-icon-bg {
+            width: 4rem;
+            height: 4rem;
+            background-color: var(--brand-orange-100);
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-icon {
+            width: 2rem;
+            height: 2rem;
+            color: var(--brand-orange-600);
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 1rem;
+        }
+
+        .feature-description {
+            color: var(--gray-600);
+            line-height: 1.625;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            background: linear-gradient(to right, var(--brand-orange-500), var(--brand-orange-600));
+            border-radius: 1rem;
+            padding: 3rem;
+            color: var(--white);
+            text-align: center;
+        }
+
+        .stats-title {
+            font-size: 1.875rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .stat-number {
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--brand-orange-100);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--gray-900);
+            color: var(--white);
+            padding: 3rem 0;
+            margin-top: 4rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .footer-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            .footer-grid > div:first-child {
+                grid-column: span 2;
+            }
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .footer-text {
+            color: var(--gray-400);
+            margin-bottom: 1rem;
+        }
+
+        .footer-links-title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .footer-links-list a {
+            color: var(--gray-400);
+            transition: color 200ms;
+        }
+
+        .footer-links-list a:hover {
+            color: var(--brand-orange-400);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--gray-800);
+            margin-top: 2rem;
+            padding-top: 2rem;
+            text-align: center;
+            color: var(--gray-400);
+        }
+
+    </style>
 </head>
-<body class="bg-gradient-to-br from-orange-50 to-orange-100 min-h-screen">
-<!-- Header -->
-<header class="bg-white shadow-lg border-b-4 border-orange-500">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center py-6">
-            <div class="flex items-center space-x-3">
-                <div class="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center">
+<body>
+<header class="header">
+    <div class="container">
+        <div class="header-content">
+            <div class="logo-container">
+                <div class="logo-icon-bg">
                     <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
                     </svg>
                 </div>
-                <h1 class="text-3xl font-bold bg-gradient-to-r from-orange-600 to-orange-800 bg-clip-text text-transparent">
-                    EduDonate
-                </h1>
+                <h1 class="logo-text">EduDonate</h1>
             </div>
-            <nav class="hidden md:flex space-x-8">
-                <a th:href="@{/login}" class="text-gray-700 hover:text-orange-600 font-medium transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-orange-50">
+            <nav class="nav-links">
+                <a th:href="@{/login}" class="nav-link">
                     Login
                 </a>
-                <a th:href="@{/register}" class="text-gray-700 hover:text-orange-600 font-medium transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-orange-50">
+                <a th:href="@{/register}" class="nav-link">
                     Register
                 </a>
-                <a th:href="@{/donations}"g class="bg-orange-500 text-white px-6 py-2 rounded-lg font-medium hover:bg-orange-600 transition-colors duration-200 shadow-md hover:shadow-lg">
+                <a th:href="@{/donations}" class="btn-donations">
                     View Donations
                 </a>
+                <a th:href="@{/sell}" class="btn-donations" style="padding: 10px 20px; background-color: #ff6600; color: white; text-decoration: none; border-radius: 5px;">
+                    Sell Items
+                </a>
             </nav>
-            <!-- Mobile menu button -->
-            <button class="md:hidden p-2 rounded-lg hover:bg-orange-50" onclick="toggleMobileMenu()">
+
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
                 <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                 </svg>
             </button>
         </div>
-        <!-- Mobile menu -->
-        <div id="mobileMenu" class="hidden md:hidden pb-6 space-y-2">
-            <a href="#" class="block text-gray-700 hover:text-orange-600 font-medium py-2 px-3 rounded-lg hover:bg-orange-50">Login</a>
-            <a href="#" class="block text-gray-700 hover:text-orange-600 font-medium py-2 px-3 rounded-lg hover:bg-orange-50">Register</a>
-            <a href="#" class="block bg-orange-500 text-white px-3 py-2 rounded-lg font-medium hover:bg-orange-600 transition-colors duration-200">View Donations</a>
+        <div id="mobileMenu" class="mobile-menu">
+            <a th:href="@{/login}">Login</a>
+            <a th:href="@{/register}">Register</a>
+            <a th:href="@{/donations}" class="btn-donations">View Donations</a>
         </div>
     </div>
 </header>
 
-<!-- Hero Section -->
-<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-    <div class="text-center mb-16">
-        <h2 class="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+<main class="container">
+    <div class="hero-section">
+        <h2 class="hero-title">
             Donate, Rent, Exchange
-            <span class="bg-gradient-to-r from-orange-500 to-orange-700 bg-clip-text text-transparent block">
+            <span>
                     Items Easily
                 </span>
         </h2>
-        <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed">
+        <p class="hero-subtitle">
             Your contribution can change lives. Join our community of educators and learners sharing resources to build a brighter future together.
         </p>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <button class="bg-orange-500 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-orange-600 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+        <div class="hero-buttons">
+            <button class="btn-primary">
                 Start Donating
             </button>
-            <button class="border-2 border-orange-500 text-orange-600 px-8 py-4 rounded-xl font-semibold text-lg hover:bg-orange-500 hover:text-white transition-all duration-200">
+            <button class="btn-secondary">
                 Learn More
             </button>
         </div>
     </div>
 
-    <!-- Features Section -->
-    <div class="grid md:grid-cols-3 gap-8 mb-16">
-        <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 border-t-4 border-orange-500">
-            <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-6">
-                <svg class="w-8 h-8 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="feature-icon-bg">
+                <svg class="feature-icon" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
                 </svg>
             </div>
-            <h3 class="text-2xl font-bold text-gray-900 mb-4">Donate Items</h3>
-            <p class="text-gray-600 leading-relaxed">Share your unused educational materials, books, and supplies with students who need them most.</p>
+            <h3 class="feature-title">Donate Items</h3>
+            <p class="feature-description">Share your unused educational materials, books, and supplies with students who need them most.</p>
         </div>
 
-        <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 border-t-4 border-orange-500">
-            <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-6">
-                <svg class="w-8 h-8 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
+        <div class="feature-card">
+            <div class="feature-icon-bg">
+                <svg class="feature-icon" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"/>
                 </svg>
             </div>
-            <h3 class="text-2xl font-bold text-gray-900 mb-4">Rent & Exchange</h3>
-            <p class="text-gray-600 leading-relaxed">Temporarily borrow or exchange items with other community members for mutual benefit.</p>
+            <h3 class="feature-title">Rent & Exchange</h3>
+            <p class="feature-description">Temporarily borrow or exchange items with other community members for mutual benefit.</p>
         </div>
 
-        <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 border-t-4 border-orange-500">
-            <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-6">
-                <svg class="w-8 h-8 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
+        <div class="feature-card">
+            <div class="feature-icon-bg">
+                <svg class="feature-icon" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
                 </svg>
             </div>
-            <h3 class="text-2xl font-bold text-gray-900 mb-4">Build Community</h3>
-            <p class="text-gray-600 leading-relaxed">Connect with like-minded educators and students in your area to create lasting impact.</p>
+            <h3 class="feature-title">Build Community</h3>
+            <p class="feature-description">Connect with like-minded educators and students in your area to create lasting impact.</p>
         </div>
     </div>
 
-    <!-- Stats Section -->
-    <div class="bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl p-12 text-white text-center">
-        <h3 class="text-3xl font-bold mb-8">Making a Difference Together</h3>
-        <div class="grid md:grid-cols-3 gap-8">
+    <div class="stats-section">
+        <h3 class="stats-title">Making a Difference Together</h3>
+        <div class="stats-grid">
             <div>
-                <div class="text-4xl font-bold mb-2">2,500+</div>
-                <div class="text-orange-100">Items Donated</div>
+                <div class="stat-number">2,500+</div>
+                <div class="stat-label">Items Donated</div>
             </div>
             <div>
-                <div class="text-4xl font-bold mb-2">1,200+</div>
-                <div class="text-orange-100">Active Members</div>
+                <div class="stat-number">1,200+</div>
+                <div class="stat-label">Active Members</div>
             </div>
             <div>
-                <div class="text-4xl font-bold mb-2">850+</div>
-                <div class="text-orange-100">Students Helped</div>
+                <div class="stat-number">850+</div>
+                <div class="stat-label">Students Helped</div>
             </div>
         </div>
     </div>
 </main>
 
-<!-- Footer -->
-<footer class="bg-gray-900 text-white py-12 mt-16">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid md:grid-cols-4 gap-8">
-            <div class="md:col-span-2">
-                <div class="flex items-center space-x-3 mb-4">
-                    <div class="w-10 h-10 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center">
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div>
+                <div class="footer-logo">
+                    <div class="logo-icon-bg" style="width: 2.5rem; height: 2.5rem;">
                         <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
                             <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
                         </svg>
                     </div>
-                    <h4 class="text-2xl font-bold">EduDonate</h4>
+                    <h4 class="footer-logo-text">EduDonate</h4>
                 </div>
-                <p class="text-gray-400 mb-4">Empowering education through community sharing. Together, we can make quality education accessible to everyone.</p>
+                <p class="footer-text">Empowering education through community sharing. Together, we can make quality education accessible to everyone.</p>
             </div>
             <div>
-                <h5 class="font-semibold mb-4">Quick Links</h5>
-                <ul class="space-y-2 text-gray-400">
-                    <li><a href="#" class="hover:text-orange-400 transition-colors">About Us</a></li>
-                    <li><a href="#" class="hover:text-orange-400 transition-colors">How It Works</a></li>
-                    <li><a href="#" class="hover:text-orange-400 transition-colors">Success Stories</a></li>
-                    <li><a href="#" class="hover:text-orange-400 transition-colors">Contact</a></li>
+                <h5 class="footer-links-title">Quick Links</h5>
+                <ul class="footer-links-list">
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">How It Works</a></li>
+                    <li><a href="#">Success Stories</a></li>
+                    <li><a href="#">Contact</a></li>
                 </ul>
             </div>
             <div>
-                <h5 class="font-semibold mb-4">Support</h5>
-                <ul class="space-y-2 text-gray-400">
-                    <li><a href="#" class="hover:text-orange-400 transition-colors">Help Center</a></li>
-                    <li><a href="#" class="hover:text-orange-400 transition-colors">Community Guidelines</a></li>
-                    <li><a href="#" class="hover:text-orange-400 transition-colors">Privacy Policy</a></li>
-                    <li><a href="#" class="hover:text-orange-400 transition-colors">Terms of Service</a></li>
+                <h5 class="footer-links-title">Support</h5>
+                <ul class="footer-links-list">
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Community Guidelines</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
                 </ul>
             </div>
         </div>
-        <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+        <div class="footer-bottom">
             <p>&copy; 2025 EduDonate. All rights reserved. Built with ❤️ for education.</p>
         </div>
     </div>
@@ -188,10 +558,9 @@
 <script>
     function toggleMobileMenu() {
         const menu = document.getElementById('mobileMenu');
-        menu.classList.toggle('hidden');
+        menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
     }
 
-    // Add smooth scrolling for better UX
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
@@ -204,7 +573,6 @@
         });
     });
 
-    // Add subtle animations on scroll
     const observerOptions = {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
@@ -219,13 +587,12 @@
         });
     }, observerOptions);
 
-    // Observe feature cards for animation
-    document.querySelectorAll('.grid > div').forEach(card => {
+    document.querySelectorAll('.feature-card').forEach(card => {
         card.style.opacity = '0';
         card.style.transform = 'translateY(20px)';
         card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
         observer.observe(card);
     });
 </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97b4ed18d7057f2e',t:'MTc1NzIzNDY4Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>
