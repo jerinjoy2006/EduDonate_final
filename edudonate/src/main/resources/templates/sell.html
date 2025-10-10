@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Sell Items</title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+<!-- Header -->
+<header style="background-color: #ff6600; color: white; padding: 20px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; max-width: 1000px; margin: auto;">
+        <div>
+            <h2>Sell Items</h2>
+            <small>List and manage items you want to sell</small>
+        </div>
+        <div>
+            <a th:href="@{/add-sell}" class="btn">Add Sell</a>
+            <a th:href="@{/dashboard}" class="btn">Dashboard</a>
+        </div>
+    </div>
+</header>
+
+<!-- Search Bar -->
+<div style="max-width: 1000px; margin: 20px auto; text-align: center;">
+    <input type="text" placeholder="Search sell items by name..." style="padding: 10px; width: 80%; border-radius: 5px; border: 1px solid #ccc;" />
+</div>
+
+<!-- Sell Items Cards -->
+<div style="max-width: 1000px; margin: auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px;">
+    <div class="card" th:each="item : ${sells}">
+        <h3 th:text="${item.itemName}">Item Name</h3>
+        <p><strong>Price:</strong> ₹<span th:text="${item.price}">1000</span></p>
+        <p><strong>Description:</strong> <span th:text="${item.description}">Item description here</span></p>
+        <p><strong>Contact:</strong> <span th:text="${item.contact}">1234567890</span></p>
+        <p>ID: <span th:text="${item.id}">1</span></p>
+        <button style="background-color: #e74c3c; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer;">Delete</button>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer style="background-color: #0b2340; color: white; padding: 40px 20px; text-align: center;">
+    <div style="max-width: 1000px; margin: auto; display: flex; justify-content: space-around; flex-wrap: wrap;">
+        <div>
+            <h3>EduDonate</h3>
+            <p>Empowering education through community sharing. Together, we can make quality education accessible to everyone.</p>
+        </div>
+        <div>
+            <h4>Quick Links</h4>
+            <ul style="list-style: none; padding: 0;">
+                <li><a href="#" style="color: white; text-decoration: none;">About Us</a></li>
+                <li><a href="#" style="color: white; text-decoration: none;">How It Works</a></li>
+                <li><a href="#" style="color: white; text-decoration: none;">Success Stories</a></li>
+                <li><a href="#" style="color: white; text-decoration: none;">Contact</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4>Support</h4>
+            <ul style="list-style: none; padding: 0;">
+                <li><a href="#" style="color: white; text-decoration: none;">Help Center</a></li>
+                <li><a href="#" style="color: white; text-decoration: none;">Community Guidelines</a></li>
+                <li><a href="#" style="color: white; text-decoration: none;">Privacy Policy</a></li>
+                <li><a href="#" style="color: white; text-decoration: none;">Terms of Service</a></li>
+            </ul>
+        </div>
+    </div>
+    <p style="margin-top: 20px;">© 2025 EduDonate. All rights reserved. Built with ❤️ for education.</p>
+</footer>
+</body>
+</html>
