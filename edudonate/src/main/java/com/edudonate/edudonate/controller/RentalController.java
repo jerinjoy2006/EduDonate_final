@@ -22,6 +22,7 @@ public class RentalController {
     public String getAllRentals(Model model) {
         model.addAttribute("rentals", rentalService.getAllRentals());
         model.addAttribute("rental", new Rental()); // for form
+        model.addAttribute("rentalStatus", RentalStatus.class); // ✅ added to fix Thymeleaf enum parsing
         return "rentals";
     }
 
