@@ -23,18 +23,12 @@
             margin-top: 2rem;
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
-        .btn-primary {
-            background: #f97316;
-            border: none;
-        }
-        .btn-primary:hover {
-            background: #ea580c;
-        }
+        .btn-primary { background: #f97316; border: none; }
+        .btn-primary:hover { background: #ea580c; }
     </style>
 </head>
 <body>
 <div class="main-container">
-
     <div class="page-header">
         <div>
             <h1 style="margin:0;">Add Rental</h1>
@@ -60,9 +54,9 @@
             <div class="mb-3">
                 <label for="status" class="form-label"><strong>Status</strong></label>
                 <select id="status" th:field="*{status}" class="form-select">
-                    <option th:value="'AVAILABLE'">AVAILABLE</option>
-                    <option th:value="'ACTIVE'">ACTIVE</option>
-                    <option th:value="'CLOSED'">CLOSED</option>
+                    <option th:value="T(com.edudonate.edudonate.model.RentalStatus).AVAILABLE" th:text="'AVAILABLE'">AVAILABLE</option>
+                    <option th:value="T(com.edudonate.edudonate.model.RentalStatus).ACTIVE" th:text="'ACTIVE'">ACTIVE</option>
+                    <option th:value="T(com.edudonate.edudonate.model.RentalStatus).CLOSED" th:text="'CLOSED'">CLOSED</option>
                 </select>
             </div>
 
@@ -72,10 +66,10 @@
             </div>
         </form>
     </div>
-
 </div>
 </body>
 </html>
+
 
 
 

@@ -19,6 +19,7 @@
 </head>
 <body>
 <div class="main-container">
+
     <div class="page-header">
         <div>
             <h1 style="margin:0;">Rentals</h1>
@@ -30,22 +31,24 @@
         </div>
     </div>
 
+    <!-- No rentals message -->
     <div th:if="${#lists.isEmpty(rentals)}" class="alert alert-warning mt-4">
         No rentals found. <a th:href="@{/rentals/new}">Add the first rental</a>.
     </div>
 
+    <!-- Rental cards -->
     <div class="rental-grid" th:if="${!#lists.isEmpty(rentals)}">
         <div class="rental-card" th:each="rental : ${rentals}">
             <h5 th:text="${rental.itemName}">Item name</h5>
 
-            <!-- Badge based on RentalStatus -->
-            <span th:classappend="
-                ${rental.status} == T(com.edudonate.edudonate.model.RentalStatus).AVAILABLE ? 'badge-available' :
-                (${rental.status} == T(com.edudonate.edudonate.model.RentalStatus).ACTIVE ? 'badge-active' :
-                'badge-closed')"
-                  th:text="${rental.status}">STATUS</span>
+            <!-- Status Badge -->
+            <span th:switch="${rental.status}">
+                <span th:case="T(com.edudonate.edudonate.model.RentalStatus).AVAILABLE" class="badge-available">AVAILABLE</span>
+                <span th:case="T(com.edudonate.edudonate.model.RentalStatus).ACTIVE" class="badge-active">ACTIVE</span>
+                <span th:case="T(com.edudonate.edudonate.model.RentalStatus).CLOSED" class="badge-closed">CLOSED</span>
+            </span>
 
-            <!-- Show rental details only if ACTIVE -->
+            <!-- Rental details for ACTIVE only -->
             <div style="margin-top:0.8rem;" th:if="${rental.status == T(com.edudonate.edudonate.model.RentalStatus).ACTIVE}">
                 <p th:if="${rental.rentedBy != null}"><strong>Rented By:</strong> <span th:text="${rental.rentedBy}"></span></p>
                 <p th:if="${rental.rentedTo != null}"><strong>Rented To:</strong> <span th:text="${rental.rentedTo}"></span></p>
@@ -53,6 +56,7 @@
                 <p th:if="${rental.endDate != null}"><strong>End Date:</strong> <span th:text="${rental.endDate}"></span></p>
             </div>
 
+            <!-- Footer -->
             <div class="card-footer">
                 <small>ID: <span th:text="${rental.id}">1</span></small>
                 <div>
@@ -60,15 +64,19 @@
                     <a th:href="@{/rentals/delete/{id}(id=${rental.id})}" class="btn btn-sm btn-outline-danger" style="margin-left:6px;">Delete</a>
                 </div>
             </div>
+
         </div>
     </div>
 
+    <!-- Total rentals -->
     <div class="alert alert-info mt-4">
         <h4>Total Rentals: <span th:text="${rentals.size()}">0</span></h4>
     </div>
+
 </div>
 </body>
 </html>
+
 
 
 
