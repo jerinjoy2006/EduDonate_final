@@ -55,14 +55,14 @@ public class RentalController {
         return "redirect:/rentals";
     }
 
-    // ✅ Show request form (register.html) for a rental
+    // ✅ Show request form (request-rental.html) for a rental
     @GetMapping("/request/{id}")
     public String showRequestForm(@PathVariable Long id, Model model) {
         Rental rental = rentalService.getRentalById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid rental Id:" + id));
 
         model.addAttribute("rental", rental);
-        return "register";
+        return "request-rental";
     }
 
     // ✅ Handle request form submission
@@ -81,6 +81,7 @@ public class RentalController {
         return "redirect:/rentals";
     }
 }
+
 
 
 
