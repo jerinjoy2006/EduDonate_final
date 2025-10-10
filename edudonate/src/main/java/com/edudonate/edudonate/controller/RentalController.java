@@ -1,6 +1,7 @@
 package com.edudonate.edudonate.controller;
 
 import com.edudonate.edudonate.model.Rental;
+import com.edudonate.edudonate.model.RentalStatus;
 import com.edudonate.edudonate.service.RentalService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +23,15 @@ public class RentalController {
         model.addAttribute("rentals", rentalService.getAllRentals());
         model.addAttribute("rental", new Rental()); // for form
         return "rentals";
+    }
+
+    // ✅ Show "Add Rental" form
+    @GetMapping("/new")
+    public String showAddRentalForm(Model model) {
+        Rental rental = new Rental();
+        rental.setStatus(RentalStatus.AVAILABLE); // default value
+        model.addAttribute("rental", rental);
+        return "add-rental";
     }
 
     // ✅ Add new rental
@@ -52,7 +62,7 @@ public class RentalController {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid rental Id:" + id));
 
         model.addAttribute("rental", rental);
-        return "register"; // 👉 register.html
+        return "register";
     }
 
     // ✅ Handle request form submission
@@ -61,16 +71,17 @@ public class RentalController {
         Rental rental = rentalService.getRentalById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid rental Id:" + id));
 
-        // Update rental details with request form data
         rental.setRentedTo(rentalRequest.getRentedTo());
         rental.setStartDate(rentalRequest.getStartDate());
         rental.setEndDate(rentalRequest.getEndDate());
-        rental.setActive(true); // now it becomes an active rental
+        rental.setActive(true);
+        rental.setStatus(RentalStatus.ACTIVE); // mark as ACTIVE when requested
 
         rentalService.saveRental(rental);
         return "redirect:/rentals";
     }
 }
+
 
 
 
