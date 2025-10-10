@@ -32,6 +32,7 @@ public class RentalController {
         Rental rental = new Rental();
         rental.setStatus(RentalStatus.AVAILABLE); // default value
         model.addAttribute("rental", rental);
+        model.addAttribute("rentalStatus", RentalStatus.class);
         return "add-rental";
     }
 
