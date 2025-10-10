@@ -32,17 +32,19 @@ public class DashboardController {
         return "donations"; // donations.html
     }
 
-    // ✅ Rent page
-    @GetMapping("/rent-page")
-    public String rentPage(Model model) {
-        model.addAttribute("title", "Rent Items");
-        return "rent"; // rent.html
+    // ✅ Rent page (fixed path to avoid conflict)
+    @GetMapping("/dashboard/rentals")
+    public String redirectToRentals() {
+        return "redirect:/rentals"; // handled by RentalController
     }
 
     // ✅ Exchange page
     @GetMapping("/exchange-page")
     public String exchangePage(Model model) {
         model.addAttribute("title", "Exchange Items");
-        return "exchange"; // exchange.html
+        return "exchanges"; // exchange.html
     }
 }
+
+
+

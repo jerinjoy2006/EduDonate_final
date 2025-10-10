@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Rentals</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        body { font-family: Inter, sans-serif; background: #fff7f0; }
+        .main-container { margin: 2rem auto; padding: 2rem; max-width: 1200px; }
+        .page-header { background: #f97316; color: white; padding: 20px 30px; border-radius: 12px; display:flex; justify-content:space-between; align-items:center; }
+        .rental-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2rem; margin-top: 1rem; }
+        .rental-card { background: white; border-radius: 12px; padding: 1rem; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .card-footer { display:flex; justify-content:space-between; align-items:center; margin-top:1rem; }
+        .badge-available { background:#38bdf8; color:white; border-radius:20px; padding:0.3rem 0.6rem; }
+        .badge-active { background:#f97316; color:white; border-radius:20px; padding:0.3rem 0.6rem; }
+        .badge-closed { background:#d1d5db; color:#333; border-radius:20px; padding:0.3rem 0.6rem; }
+    </style>
+</head>
+<body>
+<div class="main-container">
+    <div class="page-header">
+        <div>
+            <h1 style="margin:0;">Rentals</h1>
+            <p style="margin:0; opacity:0.9;">Browse and manage rental items</p>
+        </div>
+        <div>
+            <a th:href="@{/rentals/new}" class="btn btn-light">Add Rental</a>
+            <a th:href="@{/dashboard}" class="btn btn-outline-light" style="background: white; color: #333; margin-left:10px;">Dashboard</a>
+        </div>
+    </div>
+
+    <div th:if="${#lists.isEmpty(rentals)}" class="alert alert-warning mt-4">
+        No rentals found. <a th:href="@{/rentals/new}">Add the first rental</a>.
+    </div>
+
+    <div class="rental-grid" th:if="${!#lists.isEmpty(rentals)}">
+        <div class="rental-card" th:each="rental : ${rentals}">
+            <h5 th:text="${rental.itemName}">Item name</h5>
+
+            <span th:classappend="${rental.active} ? 'badge-active' : 'badge-closed'"
+                  th:text="${rental.active} ? 'ACTIVE' : 'INACTIVE'">STATUS</span>
+
+            <div style="margin-top:0.8rem;">
+                <p th:if="${rental.rentedBy != null}"><strong>Rented By:</strong> <span th:text="${rental.rentedBy}"></span></p>
+                <p th:if="${rental.rentedTo != null}"><strong>Rented To:</strong> <span th:text="${rental.rentedTo}"></span></p>
+                <p th:if="${rental.startDate != null}"><strong>Start Date:</strong> <span th:text="${rental.startDate}"></span></p>
+                <p th:if="${rental.endDate != null}"><strong>End Date:</strong> <span th:text="${rental.endDate}"></span></p>
+            </div>
+
+            <div class="card-footer">
+                <small>ID: <span th:text="${rental.id}">1</span></small>
+                <div>
+                    <a th:href="@{/rentals/request/{id}(id=${rental.id})}" class="btn btn-sm btn-primary" th:if="${rental.status != 'ACTIVE'}">Request</a>
+                    <a th:href="@{/rentals/delete/{id}(id=${rental.id})}" class="btn btn-sm btn-outline-danger" style="margin-left:6px;">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="alert alert-info mt-4">
+        <h4>Total Rentals: <span th:text="${rentals.size()}">0</span></h4>
+    </div>
+</div>
+</body>
+</html>
+
+
+
+
