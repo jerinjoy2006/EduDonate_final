@@ -20,7 +20,7 @@ public class ExchangeController {
     // Browse page (lists all)
     @GetMapping("/browse")
     public String browseExchanges(Model model) {
-        model.addAttribute("exchange", service.getAll());
+        model.addAttribute("exchanges", service.getAll());
         return "exchanges";
     }
 
