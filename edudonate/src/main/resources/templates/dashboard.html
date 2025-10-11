@@ -1,54 +1,118 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard | EduDonate</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>EduDonate Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f9fafb;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .dashboard-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #f97316;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+            text-align: center;
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-card h3 {
+            color: #f97316;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card p {
+            color: #555;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-custom {
+            border-radius: 10px;
+            font-weight: 600;
+            padding: 0.6rem 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-custom-primary {
+            background-color: #f97316;
+            color: white;
+            border: none;
+        }
+
+        .btn-custom-primary:hover {
+            background-color: #ea580c;
+        }
+    </style>
 </head>
-<body class="bg-light">
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">EduDonate</a>
-        <div class="d-flex">
-            <a th:href="@{/logout}" class="btn btn-danger">Logout</a>
-        </div>
+<body>
+<div class="dashboard-container">
+    <!-- Header -->
+    <div class="dashboard-header">
+        <h1 class="dashboard-title">EduDonate Dashboard</h1>
+        <p class="text-muted">Manage donations, rentals, and exchanges in one place</p>
     </div>
-</nav>
 
-<div class="container mt-5">
-    <h2>Welcome to Dashboard ✨</h2>
-    <p class="text-muted">Choose what you want to do:</p>
-
-    <div class="row mt-4">
-        <!-- Donations Card -->
-        <div class="col-md-4 mb-4">
-            <div class="card shadow p-3 h-100">
-                <h5>📚 Donations</h5>
-                <p>See all donated items and manage donations.</p>
-                <a th:href="@{/donations-page}" class="btn btn-primary">Go to Donations</a>
-            </div>
+    <!-- Feature Cards -->
+    <div class="card-grid">
+        <!-- Donations -->
+        <div class="feature-card">
+            <h3>Donations</h3>
+            <p>View and manage all available donations.</p>
+            <a href="/donations-page" class="btn btn-custom btn-custom-primary">Go to Donations</a>
         </div>
 
-        <!-- Rent Card -->
-        <div class="col-md-4 mb-4">
-            <div class="card shadow p-3 h-100">
-                <h5>🏠 Rent</h5>
-                <p>Browse items available for rent or list your own.</p>
-                <a th:href="@{/rent-page}" class="btn btn-success">Go to Rent</a>
-            </div>
+        <!-- Rentals -->
+        <div class="feature-card">
+            <h3>Rentals</h3>
+            <p>Browse items available for rent and manage requests.</p>
+            <a href="/rentals" class="btn btn-custom btn-custom-primary">Go to Rentals</a>
         </div>
 
-        <!-- Exchange Card -->
-        <div class="col-md-4 mb-4">
-            <div class="card shadow p-3 h-100">
-                <h5>🔄 Exchange</h5>
-                <p>View and manage item exchange requests.</p>
-                <a th:href="@{/exchange/browse}" class="btn btn-warning text-white">Go to Exchange</a>
-            </div>
+        <!-- Exchanges -->
+        <div class="feature-card">
+            <h3>Exchanges</h3>
+            <p>View items available for exchange and manage offers.</p>
+            <a href="/exchange-page" class="btn btn-custom btn-custom-primary">Go to Exchanges</a>
         </div>
     </div>
 </div>
-
 </body>
 </html>
+
+
