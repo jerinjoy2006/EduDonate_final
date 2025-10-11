@@ -17,37 +17,39 @@ public class ExchangeController {
         this.service = service;
     }
 
-    // Browse page (lists all)
+    // ✅ Show all exchanges
     @GetMapping("/browse")
     public String browseExchanges(Model model) {
         model.addAttribute("exchanges", service.getAll());
-        return "exchanges";
+        return "exchanges"; // exchanges.html
     }
 
-    // Show form to create new listing
+    // ✅ Show form for new exchange
     @GetMapping("/new")
     public String showNewExchangeForm(Model model) {
         model.addAttribute("exchange", new Exchange());
-        return "new-exchange";
+        return "new-exchange"; // new-exchange.html
     }
 
-    // Handle form submit (create)
+    // ✅ Handle new exchange submission
     @PostMapping
-    public String handleNewExchange(@ModelAttribute Exchange exchange) {
+    public String handleNewExchange(@ModelAttribute("exchange") Exchange exchange) {
         service.createExchange(exchange);
+        // redirect to browse after saving
         return "redirect:/exchange/browse";
     }
 
-    // Accept (POST) — uses Authentication to get logged-in username if available
+    // ✅ Accept button (changes status + acceptedBy)
     @PostMapping("/accept/{id}")
     public String acceptExchange(@PathVariable String id, Authentication authentication) {
         String username = (authentication != null && authentication.isAuthenticated())
-                ? authentication.getName() : "VisitorUser";
+                ? authentication.getName()
+                : "VisitorUser";
         service.acceptExchange(id, username);
         return "redirect:/exchange/browse";
     }
 
-    // Optional: mark completed
+    // ✅ Complete button (mark as completed)
     @PostMapping("/complete/{id}")
     public String completeExchange(@PathVariable String id) {
         service.completeExchange(id);

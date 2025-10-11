@@ -17,7 +17,7 @@
     <div class="card p-4 shadow-sm">
         <h3 class="brand mb-3">➕ Create New Exchange Listing</h3>
 
-        <!-- ⚡ Removed CSRF field because it causes 500 error if _csrf is null -->
+        <!-- ✅ Form -->
         <form th:action="@{/exchange}" th:object="${exchange}" method="post">
 
             <div class="mb-3">
