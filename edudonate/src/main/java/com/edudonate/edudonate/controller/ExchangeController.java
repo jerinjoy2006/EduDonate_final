@@ -27,7 +27,7 @@ public class ExchangeController {
     // Show form to create new listing
     @GetMapping("/new")
     public String showNewExchangeForm(Model model) {
-        model.addAttribute("exchange", new Exchange());
+        model.addAttribute("exchanges", new Exchange());
         return "new-exchange";
     }
 
