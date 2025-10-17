@@ -13,8 +13,8 @@ public class SellService {
         this.sellRepository = sellRepository;
     }
 
+    // Ensure the method name is saveSell (to match the controller call)
     public void saveSell(Sell sell) {
         sellRepository.save(sell);
     }
 }
-
