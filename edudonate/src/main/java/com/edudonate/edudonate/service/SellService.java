@@ -17,4 +17,12 @@ public class SellService {
     public void saveSell(Sell sell) {
         sellRepository.save(sell);
     }
+
+    public java.util.List<Sell> getAllSells() {
+        return sellRepository.findAll();
+    }
+
+    public void deleteSellById(Long id) {
+        sellRepository.deleteById(id);
+    }
 }
