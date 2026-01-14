@@ -1,69 +1,310 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <title>Sell Items</title>
-    <link rel="stylesheet" href="/css/style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sell Items - EduDonate</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'orange-primary': '#ff6600',
+                        'orange-secondary': '#ff8533',
+                        'orange-light': '#ffb366',
+                        'orange-dark': '#cc5200'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            box-sizing: border-box;
+        }
+
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .search-focus:focus {
+            outline: none;
+            border-color: #ff6600;
+            box-shadow: 0 0 0 3px rgba(255, 102, 0, 0.1);
+        }
+
+        .btn-orange {
+            background: linear-gradient(135deg, #ff6600, #ff8533);
+            transition: all 0.3s ease;
+        }
+
+        .btn-orange:hover {
+            background: linear-gradient(135deg, #cc5200, #ff6600);
+            transform: translateY(-1px);
+        }
+
+        .delete-btn {
+            transition: all 0.3s ease;
+        }
+
+        .delete-btn:hover {
+            background-color: #c53030;
+            transform: scale(1.05);
+        }
+    </style>
 </head>
-<body>
+<body class="bg-gradient-to-br from-orange-50 to-orange-100 min-h-full">
 <!-- Header -->
-<header style="background-color: #ff6600; color: white; padding: 20px;">
-    <div style="display: flex; justify-content: space-between; align-items: center; max-width: 1000px; margin: auto;">
-        <div>
-            <h2>Sell Items</h2>
-            <small>List and manage items you want to sell</small>
-        </div>
-        <div>
-            <a th:href="@{/add-sell}" class="btn">Add Sell</a>
-            <a th:href="@{/dashboard}" class="btn">Dashboard</a>
+<header class="bg-gradient-to-r from-orange-primary to-orange-secondary text-white shadow-lg">
+    <div class="max-w-6xl mx-auto px-6 py-6">
+        <div class="flex justify-between items-center">
+            <div>
+                <h1 class="text-3xl font-bold mb-2">🛍️ Sell Items</h1>
+                <p class="text-orange-100 text-lg">List and manage items you want to sell</p>
+            </div>
+            <div class="flex gap-4">
+                <button class="btn-orange px-6 py-3 rounded-lg font-semibold text-white shadow-lg hover:shadow-xl">
+                    ➕ Add Sell
+                </button>
+                <button class="bg-white text-orange-primary px-6 py-3 rounded-lg font-semibold hover:bg-orange-50 transition-colors shadow-lg">
+                    📊 Dashboard
+                </button>
+            </div>
         </div>
     </div>
 </header>
 
 <!-- Search Bar -->
-<div style="max-width: 1000px; margin: 20px auto; text-align: center;">
-    <input type="text" placeholder="Search sell items by name..." style="padding: 10px; width: 80%; border-radius: 5px; border: 1px solid #ccc;" />
+<div class="max-w-6xl mx-auto px-6 py-8">
+    <div class="text-center">
+        <div class="relative max-w-2xl mx-auto">
+            <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="🔍 Search sell items by name..."
+                    class="w-full px-6 py-4 text-lg border-2 border-orange-200 rounded-xl search-focus bg-white shadow-lg"
+            />
+            <button class="absolute right-3 top-1/2 transform -translate-y-1/2 btn-orange px-4 py-2 rounded-lg text-white font-medium">
+                Search
+            </button>
+        </div>
+    </div>
 </div>
 
 <!-- Sell Items Cards -->
-<div style="max-width: 1000px; margin: auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px;">
-    <div class="card" th:each="item : ${sells}">
-        <h3 th:text="${item.itemName}">Item Name</h3>
-        <p><strong>Price:</strong> ₹<span th:text="${item.price}">1000</span></p>
-        <p><strong>Description:</strong> <span th:text="${item.description}">Item description here</span></p>
-        <p><strong>Contact:</strong> <span th:text="${item.contact}">1234567890</span></p>
-        <p>ID: <span th:text="${item.id}">1</span></p>
-        <button style="background-color: #e74c3c; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer;">Delete</button>
+<main class="max-w-6xl mx-auto px-6 pb-12">
+    <div id="itemsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <!-- Sample Items -->
+        <div class="bg-white rounded-xl shadow-lg card-hover p-6 border-l-4 border-orange-primary">
+            <div class="flex justify-between items-start mb-4">
+                <h3 class="text-xl font-bold text-gray-800">📚 Physics Textbook</h3>
+                <span class="bg-orange-100 text-orange-primary px-3 py-1 rounded-full text-sm font-semibold">ID: 1</span>
+            </div>
+            <div class="space-y-3 mb-6">
+                <p class="text-2xl font-bold text-orange-primary">₹1,200</p>
+                <p class="text-gray-600"><strong>Description:</strong> Complete physics textbook for class 12, excellent condition</p>
+                <p class="text-gray-600"><strong>Contact:</strong> 9876543210</p>
+            </div>
+            <button class="delete-btn w-full bg-red-500 text-white py-3 rounded-lg font-semibold hover:bg-red-600" onclick="deleteItem(1)">
+                🗑️ Delete Item
+            </button>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg card-hover p-6 border-l-4 border-orange-primary">
+            <div class="flex justify-between items-start mb-4">
+                <h3 class="text-xl font-bold text-gray-800">💻 Laptop Stand</h3>
+                <span class="bg-orange-100 text-orange-primary px-3 py-1 rounded-full text-sm font-semibold">ID: 2</span>
+            </div>
+            <div class="space-y-3 mb-6">
+                <p class="text-2xl font-bold text-orange-primary">₹800</p>
+                <p class="text-gray-600"><strong>Description:</strong> Adjustable laptop stand, perfect for online classes</p>
+                <p class="text-gray-600"><strong>Contact:</strong> 8765432109</p>
+            </div>
+            <button class="delete-btn w-full bg-red-500 text-white py-3 rounded-lg font-semibold hover:bg-red-600" onclick="deleteItem(2)">
+                🗑️ Delete Item
+            </button>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg card-hover p-6 border-l-4 border-orange-primary">
+            <div class="flex justify-between items-start mb-4">
+                <h3 class="text-xl font-bold text-gray-800">🎒 School Backpack</h3>
+                <span class="bg-orange-100 text-orange-primary px-3 py-1 rounded-full text-sm font-semibold">ID: 3</span>
+            </div>
+            <div class="space-y-3 mb-6">
+                <p class="text-2xl font-bold text-orange-primary">₹600</p>
+                <p class="text-gray-600"><strong>Description:</strong> Spacious backpack with multiple compartments</p>
+                <p class="text-gray-600"><strong>Contact:</strong> 7654321098</p>
+            </div>
+            <button class="delete-btn w-full bg-red-500 text-white py-3 rounded-lg font-semibold hover:bg-red-600" onclick="deleteItem(3)">
+                🗑️ Delete Item
+            </button>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg card-hover p-6 border-l-4 border-orange-primary">
+            <div class="flex justify-between items-start mb-4">
+                <h3 class="text-xl font-bold text-gray-800">📐 Geometry Set</h3>
+                <span class="bg-orange-100 text-orange-primary px-3 py-1 rounded-full text-sm font-semibold">ID: 4</span>
+            </div>
+            <div class="space-y-3 mb-6">
+                <p class="text-2xl font-bold text-orange-primary">₹150</p>
+                <p class="text-gray-600"><strong>Description:</strong> Complete geometry set with compass and protractor</p>
+                <p class="text-gray-600"><strong>Contact:</strong> 6543210987</p>
+            </div>
+            <button class="delete-btn w-full bg-red-500 text-white py-3 rounded-lg font-semibold hover:bg-red-600" onclick="deleteItem(4)">
+                🗑️ Delete Item
+            </button>
+        </div>
     </div>
-</div>
+
+    <!-- No Results Message -->
+    <div id="noResults" class="text-center py-12 hidden">
+        <div class="text-6xl mb-4">🔍</div>
+        <h3 class="text-2xl font-bold text-gray-600 mb-2">No items found</h3>
+        <p class="text-gray-500">Try adjusting your search terms</p>
+    </div>
+</main>
 
 <!-- Footer -->
-<footer style="background-color: #0b2340; color: white; padding: 40px 20px; text-align: center;">
-    <div style="max-width: 1000px; margin: auto; display: flex; justify-content: space-around; flex-wrap: wrap;">
-        <div>
-            <h3>EduDonate</h3>
-            <p>Empowering education through community sharing. Together, we can make quality education accessible to everyone.</p>
+<footer class="bg-gradient-to-r from-gray-800 to-gray-900 text-white mt-12">
+    <div class="max-w-6xl mx-auto px-6 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+                <h3 class="text-2xl font-bold mb-4 text-orange-primary">🎓 EduDonate</h3>
+                <p class="text-gray-300 leading-relaxed">Empowering education through community sharing. Together, we can make quality education accessible to everyone.</p>
+            </div>
+            <div>
+                <h4 class="text-lg font-semibold mb-4 text-orange-light">Quick Links</h4>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-300 hover:text-orange-light transition-colors">About Us</a></li>
+                    <li><a href="#" class="text-gray-300 hover:text-orange-light transition-colors">How It Works</a></li>
+                    <li><a href="#" class="text-gray-300 hover:text-orange-light transition-colors">Success Stories</a></li>
+                    <li><a href="#" class="text-gray-300 hover:text-orange-light transition-colors">Contact</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-lg font-semibold mb-4 text-orange-light">Support</h4>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-300 hover:text-orange-light transition-colors">Help Center</a></li>
+                    <li><a href="#" class="text-gray-300 hover:text-orange-light transition-colors">Community Guidelines</a></li>
+                    <li><a href="#" class="text-gray-300 hover:text-orange-light transition-colors">Privacy Policy</a></li>
+                    <li><a href="#" class="text-gray-300 hover:text-orange-light transition-colors">Terms of Service</a></li>
+                </ul>
+            </div>
         </div>
-        <div>
-            <h4>Quick Links</h4>
-            <ul style="list-style: none; padding: 0;">
-                <li><a href="#" style="color: white; text-decoration: none;">About Us</a></li>
-                <li><a href="#" style="color: white; text-decoration: none;">How It Works</a></li>
-                <li><a href="#" style="color: white; text-decoration: none;">Success Stories</a></li>
-                <li><a href="#" style="color: white; text-decoration: none;">Contact</a></li>
-            </ul>
-        </div>
-        <div>
-            <h4>Support</h4>
-            <ul style="list-style: none; padding: 0;">
-                <li><a href="#" style="color: white; text-decoration: none;">Help Center</a></li>
-                <li><a href="#" style="color: white; text-decoration: none;">Community Guidelines</a></li>
-                <li><a href="#" style="color: white; text-decoration: none;">Privacy Policy</a></li>
-                <li><a href="#" style="color: white; text-decoration: none;">Terms of Service</a></li>
-            </ul>
+        <div class="border-t border-gray-700 mt-8 pt-8 text-center">
+            <p class="text-gray-400">© 2025 EduDonate. All rights reserved. Built with ❤️ for education.</p>
         </div>
     </div>
-    <p style="margin-top: 20px;">© 2025 EduDonate. All rights reserved. Built with ❤️ for education.</p>
 </footer>
-</body>
+
+<script>
+    // Search functionality
+    const searchInput = document.getElementById('searchInput');
+    const itemsContainer = document.getElementById('itemsContainer');
+    const noResults = document.getElementById('noResults');
+
+    searchInput.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        const items = itemsContainer.querySelectorAll('.card-hover');
+        let visibleItems = 0;
+
+        items.forEach(item => {
+            const itemName = item.querySelector('h3').textContent.toLowerCase();
+            const description = item.querySelector('p:nth-of-type(2)').textContent.toLowerCase();
+
+            if (itemName.includes(searchTerm) || description.includes(searchTerm)) {
+                item.style.display = 'block';
+                visibleItems++;
+            } else {
+                item.style.display = 'none';
+            }
+        });
+
+        // Show/hide no results message
+        if (visibleItems === 0 && searchTerm !== '') {
+            noResults.classList.remove('hidden');
+            itemsContainer.style.display = 'none';
+        } else {
+            noResults.classList.add('hidden');
+            itemsContainer.style.display = 'grid';
+        }
+    });
+
+    // Delete functionality with confirmation
+    function deleteItem(itemId) {
+        // Create confirmation modal
+        const modal = document.createElement('div');
+        modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+        modal.innerHTML = `
+            <div class="bg-white rounded-xl p-8 max-w-md mx-4 shadow-2xl">
+                <div class="text-center">
+                    <div class="text-6xl mb-4">⚠️</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Delete Item?</h3>
+                    <p class="text-gray-600 mb-6">Are you sure you want to delete this item? This action cannot be undone.</p>
+                    <div class="flex gap-4">
+                        <button onclick="confirmDelete(${itemId})" class="flex-1 bg-red-500 text-white py-3 rounded-lg font-semibold hover:bg-red-600 transition-colors">
+                            Yes, Delete
+                        </button>
+                        <button onclick="closeModal()" class="flex-1 bg-gray-300 text-gray-700 py-3 rounded-lg font-semibold hover:bg-gray-400 transition-colors">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+    }
+
+    function confirmDelete(itemId) {
+        // Find and remove the item
+        const items = document.querySelectorAll('.card-hover');
+        items.forEach(item => {
+            const id = item.querySelector('span').textContent.match(/\d+/)[0];
+            if (id == itemId) {
+                item.style.animation = 'fadeOut 0.3s ease-out';
+                setTimeout(() => {
+                    item.remove();
+                    showSuccessMessage('Item deleted successfully!');
+                }, 300);
+            }
+        });
+        closeModal();
+    }
+
+    function closeModal() {
+        const modal = document.querySelector('.fixed');
+        if (modal) {
+            modal.remove();
+        }
+    }
+
+    function showSuccessMessage(message) {
+        const toast = document.createElement('div');
+        toast.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+        toast.textContent = message;
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+            toast.style.animation = 'fadeOut 0.3s ease-out';
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
+    }
+
+    // Add CSS animation
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes fadeOut {
+            from { opacity: 1; transform: scale(1); }
+            to { opacity: 0; transform: scale(0.9); }
+        }
+    `;
+    document.head.appendChild(style);
+</script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99056c44c2cf7ea4',t:'MTc2MDc2MzExMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>

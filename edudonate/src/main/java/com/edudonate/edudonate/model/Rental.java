@@ -18,6 +18,9 @@ public class Rental {
     private LocalDate endDate;     // Rental return date
     private boolean active = true;
 
+    @Enumerated(EnumType.STRING)
+    private RentalStatus status = RentalStatus.AVAILABLE; // New field with default
+
     // ✅ Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -42,7 +45,11 @@ public class Rental {
 
     public boolean isActive() { return active; }
     public void setActive(boolean active) { this.active = active; }
+
+    public RentalStatus getStatus() { return status; }
+    public void setStatus(RentalStatus status) { this.status = status; }
 }
+
 
 
 

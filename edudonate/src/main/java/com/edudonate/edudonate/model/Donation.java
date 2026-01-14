@@ -14,9 +14,8 @@ public class Donation {
     private String phone;
     private boolean available;
 
-    private String itemType; // ✅ New field for categorization
+    private String itemType;
 
-    // Getters and Setters
     public Long getId() {
         return id;
     }
