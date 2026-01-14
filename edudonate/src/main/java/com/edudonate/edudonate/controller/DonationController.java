@@ -19,28 +19,24 @@ public class DonationController {
         this.donationService = donationService;
     }
 
-    // 🌐 API: Get all donations (JSON)
     @GetMapping("/api")
     @ResponseBody
     public List<Donation> getAllDonationsApi() {
         return donationService.getAllDonations();
     }
 
-    // 🌐 API: Get donation by ID (JSON)
     @GetMapping("/api/{id}")
     @ResponseBody
     public Donation getDonationById(@PathVariable Long id) {
         return donationService.getDonationById(id);
     }
 
-    // 🌐 API: Add donation (JSON)
     @PostMapping("/api")
     @ResponseBody
     public Donation addDonationApi(@RequestBody Donation donation) {
         return donationService.addDonation(donation);
     }
 
-    // 🌐 API: Delete donation (JSON)
     @DeleteMapping("/api/{id}")
     @ResponseBody
     public String deleteDonationApi(@PathVariable Long id) {
@@ -48,14 +44,12 @@ public class DonationController {
         return "Donation deleted with id " + id;
     }
 
-    // 🌐 API: Mark as unavailable (JSON)
     @PutMapping("/api/{id}/unavailable")
     @ResponseBody
     public Donation markAsUnavailable(@PathVariable Long id) {
         return donationService.markAsUnavailable(id);
     }
 
-    // 🖥️ View: Show all donations (with optional filtering by type)
     @GetMapping
     public String showDonationsPage(@RequestParam(required = false) String type, Model model) {
         List<Donation> donations = (type == null || type.isEmpty())
@@ -70,7 +64,6 @@ public class DonationController {
         return "donations"; // maps to donations.html
     }
 
-    // 🖥️ View: Show form to add donation
     @GetMapping("/new")
     public String showAddDonationForm(Model model) {
         model.addAttribute("donation", new Donation());
@@ -78,14 +71,12 @@ public class DonationController {
         return "add-donation"; // maps to add-donation.html
     }
 
-    // 🖥️ View: Handle form submission
     @PostMapping
     public String saveDonation(@ModelAttribute Donation donation) {
         donationService.addDonation(donation);
         return "redirect:/donations";
     }
 
-    // 🖥️ View: Delete donation from UI
     @GetMapping("/delete/{id}")
     public String deleteDonation(@PathVariable Long id) {
         donationService.deleteDonation(id);
