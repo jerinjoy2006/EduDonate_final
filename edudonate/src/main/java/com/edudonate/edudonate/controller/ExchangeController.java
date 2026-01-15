@@ -35,7 +35,7 @@ public class ExchangeController {
     @PostMapping
     public String handleNewExchange(@ModelAttribute Exchange exchange) {
         service.createExchange(exchange);
-        return "redirect:/exchange/browse";
+        return "redirect:/exchange/browse?success=true";
     }
 
     // Accept (POST) — uses Authentication to get logged-in username if available
@@ -44,13 +44,20 @@ public class ExchangeController {
         String username = (authentication != null && authentication.isAuthenticated())
                 ? authentication.getName() : "VisitorUser";
         service.acceptExchange(id, username);
-        return "redirect:/exchange/browse";
+        return "redirect:/exchange/browse?updated=true";
     }
 
     // Optional: mark completed
     @PostMapping("/complete/{id}")
     public String completeExchange(@PathVariable String id) {
         service.completeExchange(id);
-        return "redirect:/exchange/browse";
+        return "redirect:/exchange/browse?updated=true";
+    }
+
+    // Delete exchange
+    @GetMapping("/delete/{id}")
+    public String deleteExchange(@PathVariable String id) {
+        service.deleteExchange(id);
+        return "redirect:/exchange/browse?deleted=true";
     }
 }

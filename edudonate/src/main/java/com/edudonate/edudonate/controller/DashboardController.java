@@ -40,9 +40,8 @@ public class DashboardController {
 
     // ✅ Exchange page
     @GetMapping("/exchange-page")
-    public String exchangePage(Model model) {
-        model.addAttribute("title", "Exchange Items");
-        return "exchanges"; // exchange.html
+    public String exchangePage() {
+        return "redirect:/exchange/browse";
     }
 }
 

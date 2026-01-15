@@ -52,4 +52,9 @@ public class ExchangeService {
         }
         return ex;
     }
+
+    // Delete exchange
+    public void deleteExchange(String id) {
+        repo.deleteById(id);
+    }
 }

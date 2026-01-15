@@ -40,7 +40,7 @@ public class RentalController {
     @PostMapping
     public String addRental(@ModelAttribute Rental rental) {
         rentalService.saveRental(rental);
-        return "redirect:/rentals";
+        return "redirect:/rentals?success=true";
     }
 
     // ✅ Update rental
@@ -54,7 +54,7 @@ public class RentalController {
     @GetMapping("/delete/{id}")
     public String deleteRental(@PathVariable Long id) {
         rentalService.deleteRental(id);
-        return "redirect:/rentals";
+        return "redirect:/rentals?deleted=true";
     }
 
     // ✅ Show request form (request-rental.html) for a rental
