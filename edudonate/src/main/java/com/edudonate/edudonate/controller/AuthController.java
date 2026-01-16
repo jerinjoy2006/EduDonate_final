@@ -2,7 +2,6 @@ package com.edudonate.edudonate.controller;
 
 import com.edudonate.edudonate.model.User;
 import com.edudonate.edudonate.service.UserService;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,21 +30,6 @@ public class AuthController {
         return "login";  // templates/login.html
     }
 
-    // Process login form
-    @PostMapping("/login")
-    public String login(@RequestParam String username,
-                        @RequestParam String password,
-                        HttpSession session) {
-
-        return userService.findByUsername(username)
-                .filter(user -> userService.validateUser(username, password)) // validate password
-                .map(user -> {
-                    session.setAttribute("user", user);
-                    return "redirect:/welcome";
-                })
-                .orElse("redirect:/login?error=true");
-    }
-
     // Show registration page
     @GetMapping("/register")
     public String showRegisterForm() {
@@ -66,20 +50,5 @@ public class AuthController {
         }
         redirectAttributes.addFlashAttribute("successMessage", "Registration successful! Please login.");
         return "redirect:/login?registered=true";
-    }
-
-    // Welcome page (only for logged-in users)
-    @GetMapping("/welcome")
-    public String welcome(HttpSession session) {
-        if (session.getAttribute("user") == null) {
-            return "redirect:/login?error=unauthorized";
-        }
-        return "welcome";
-    }
-
-    @GetMapping("/logout")
-    public String logout(HttpSession session) {
-        session.invalidate();
-        return "redirect:/login?logout=true";
     }
 }
